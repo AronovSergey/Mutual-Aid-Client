@@ -17,9 +17,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import Drawer from './../Drawer/Drawer';
-
-import { drawerWidth } from './../utlis/consts';
+import { drawerWidth } from '../utils/consts';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -99,11 +97,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -182,23 +179,13 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
     <div>
         <div className={classes.grow}>
         <AppBar
             position="fixed"
             className={clsx(classes.appBar, {
-            [classes.appBarShift]: open,
+            [classes.appBarShift]: props.open,
             })}
         >
             <Toolbar>
@@ -207,7 +194,7 @@ export default function PrimarySearchAppBar() {
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="open drawer"
-                onClick={handleDrawerOpen}
+                onClick={props.handleDrawerOpen}
             >
                 <MenuIcon />
             </IconButton>
@@ -266,11 +253,6 @@ export default function PrimarySearchAppBar() {
         {renderMobileMenu}
         {renderMenu}
         </div>
-        <Drawer
-            open={open}
-            handleDrawerClose={handleDrawerClose}
-        >
-        </Drawer>
     </div>
   );
 }
