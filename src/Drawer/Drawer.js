@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router";
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
-import { drawerWidth } from '../utils/consts';
+import { drawerWidth, drawerTopLinkes } from '../utils/consts';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
 
   return (
       <Drawer
@@ -54,8 +56,14 @@ export default function PersistentDrawerLeft(props) {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+          {['New Post', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem
+              button 
+              key={text}
+              onClick={() => {
+                history.push({pathname: `/${drawerTopLinkes[index]}`});
+              }}
+            >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

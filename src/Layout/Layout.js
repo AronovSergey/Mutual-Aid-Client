@@ -49,6 +49,7 @@ export default function (props){
                 <Header
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
+                    handleDrawerClose={handleDrawerClose}
                 />
             </Grid> 
             <main
