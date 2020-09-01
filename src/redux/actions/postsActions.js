@@ -2,13 +2,25 @@ const axios = require('axios');
 
 
 
-export const createPost = (postTitle, postContent) => { 
-    axios.post('http://127.0.0.1:8080/api/v1.0/posts', {
-        "title" : postTitle,
-        "text" : postContent,
-    })
+export const createPost = (postTitle, postContent, postImage) => (dispatch) => { 
+    const formData = new FormData();
+    formData.append("image", postImage);
+
+    axios.post('http://127.0.0.1:8080/api/v1.0/images', formData)
     .then(function (response) {
-        console.log(response);
+        const imageURL = response.data;
+
+        axios.post('http://127.0.0.1:8080/api/v1.0/posts', {
+            "title" : postTitle,
+            "content" : postContent,
+            "imageURL" : imageURL,
+        })
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     })
     .catch(function (error) {
         console.log(error);

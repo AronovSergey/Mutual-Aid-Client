@@ -1,6 +1,6 @@
 const initialState = {
-    postTitle: '',
-    postContent: '',
+    isPostCreated: false,
+    isPostBeingCreated: false,
     mainPosts: {
         posts: [],
         loading: false,
@@ -18,7 +18,6 @@ export default function postsReducer(state = initialState, action) {
                 postContent: action.payload.postContent,
             }
         case 'FETCH_ALL_POSTS':
-            console.log(action.payload);
             return{
                 ...state,
                 mainPosts: {

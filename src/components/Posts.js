@@ -17,15 +17,15 @@ const useStyles = makeStyles({
 });
 
 const Posts = ({ action, postsType }) => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
+  const classes = useStyles();
+  const dispatch = useDispatch();
 //  const { token } = useSelector((state) => state.auth);
 
-   useEffect(() => {
+  useEffect(() => {
      dispatch(action());
    }, []);
 
-    console.log(postsType)
+    
   const { posts, loading, fetched, error } = useSelector(
     (state) => state.posts[postsType]
   );

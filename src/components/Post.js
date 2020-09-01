@@ -7,7 +7,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-//import CardMedia from "@material-ui/core/CardMedia";
+import CardMedia from "@material-ui/core/CardMedia";
 
 const useStyles = makeStyles({
   root: {
@@ -34,11 +34,11 @@ const Post = ({ postData }) => {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        {/* <CardMedia
+        <CardMedia
           className={classes.media}
-          image={postData.imageUrl}
+          image={postData.imageURL}
           title={postData.title}
-        /> */}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {postData.title}

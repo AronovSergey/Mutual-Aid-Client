@@ -1,13 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 
-import { initPostValues } from "../utils/consts/newPostConsts";
+import { categories, initPostValues } from "../utils/consts/newPostConsts";
 import { createPost } from "../redux/actions/postsActions";
+import ImageUpload from "../components/ImageUpload";
 import PostButton from "../components/PostButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +25,24 @@ const useStyles = makeStyles((theme) => ({
 const NewPost = props => {
     const classes = useStyles();
     const dispatch = useDispatch();
+//    const fixedOptions = [];  
 
     const [postValues, setPostValues] = useState(initPostValues);
-    const { postTitle, postContent } = postValues;
+    const { postTitle, postContent, postImage } = postValues;
+    const [tagsValue, setTagsValue] = useState([]);
+//    const { token } = useSelector((state) => state.auth);
+    const { isPostBeingCreated, isPostCreated } = useSelector(
+        (state) => state.posts
+    );
+
+    const resetValues = useCallback(() => {
+        setPostValues(initPostValues);
+        setTagsValue([]);
+    }, [setPostValues, setTagsValue]);
+
+    useEffect(() => {
+        if (isPostCreated) resetValues();
+    }, [isPostCreated]);
 
     // usage of useCallBack hook in order to prevent function re-rendering
     const handlePostValuesChange = useCallback((event) => {
@@ -39,12 +55,23 @@ const NewPost = props => {
             };
         });
 
-        },[postTitle, postContent]
+        }, [setPostValues, postTitle, postContent]
+    );
+
+    const handleImageChange = useCallback(
+        (event) => {
+          setPostValues((prevPostValues) => {
+            return {
+              ...prevPostValues,
+              postImage: event.target.files[0],
+            };
+          });
+        }, [setPostValues, postImage]
     );
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent));
-        }, [postTitle, postContent]
+        dispatch(createPost(postTitle, postContent, postImage));
+        }, [postTitle, postContent, postImage]
     );
     
 
@@ -71,6 +98,7 @@ const NewPost = props => {
                     value={postContent}
                     onChange={handlePostValuesChange}
                 />
+                <ImageUpload handleImageChange={handleImageChange} />
                 <PostButton
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}

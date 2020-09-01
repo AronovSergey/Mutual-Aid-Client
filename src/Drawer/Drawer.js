@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
-import { drawerWidth, drawerTopLinkes } from '../utils/consts';
+import { drawerWidth, drawerTopTags, drawerTopLinkes } from '../utils/consts/drawerConsts';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -56,7 +56,7 @@ export default function PersistentDrawerLeft(props) {
         </div>
         <Divider />
         <List>
-          {['New Post', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {drawerTopTags.map((text, index) => (
             <ListItem
               button 
               key={text}

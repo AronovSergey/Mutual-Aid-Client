@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import { drawerWidth } from '../utils/consts';
+import { drawerWidth } from '../utils/consts/drawerConsts';
 
 import Header from './../Header/Header';
 import Drawer from './../Drawer/Drawer';
