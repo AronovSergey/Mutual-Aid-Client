@@ -1,15 +1,27 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 
-import { categories, initPostValues } from "../utils/consts/newPostConsts";
-import { createPost } from "../redux/actions/postsActions";
-import ImageUpload from "../components/ImageUpload";
-import PostButton from "../components/PostButton";
+import { categories, initPostValues } from '../utils/consts/newPostConsts';
+import { createPost } from '../redux/actions/postsActions';
+import TagsAutoComplete from '../components/TagsAutoComplete';
+import ImageUpload from '../components/ImageUpload';
+import PostButton from '../components/PostButton';
+
+import {
+    isTagsLengthValid,
+    isPostTitleValid,
+    isPostContentValid,
+    displayPostTitleError,
+    displayPostContentError,
+    postTitleTextHelper,
+    PostContentTextHelper,
+} from '../utils/errorHandlers/inputErrorHandler';
+  
 
 const useStyles = makeStyles((theme) => ({
     rootPaper: {
@@ -25,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const NewPost = props => {
     const classes = useStyles();
     const dispatch = useDispatch();
-//    const fixedOptions = [];  
+    const fixedOptions = [];  
 
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
@@ -55,9 +67,18 @@ const NewPost = props => {
             };
         });
 
-        }, [setPostValues, postTitle, postContent]
-    );
+    }, [setPostValues, postTitle, postContent]);
 
+    // usage of useCallBack hook in order to prevent function re-rendering
+    const handleTagsChange = useCallback(
+        (event, newValue) => {
+        setTagsValue([
+            ...fixedOptions,
+            ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
+        ]);
+    }, [setTagsValue, tagsValue]);
+
+    // usage of useCallBack hook in order to prevent function re-rendering
     const handleImageChange = useCallback(
         (event) => {
           setPostValues((prevPostValues) => {
@@ -66,19 +87,28 @@ const NewPost = props => {
               postImage: event.target.files[0],
             };
           });
-        }, [setPostValues, postImage]
-    );
+    }, [setPostValues, postImage]);
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent, postImage));
-        }, [postTitle, postContent, postImage]
-    );
+        dispatch(createPost(postTitle, postContent, tagsValue, postImage));
+    }, [postTitle, postContent, tagsValue, postImage]);
     
+    // usage of useCallBack hook in order to prevent function re-rendering
+    const isSendButtonEnabled = useCallback(
+        () =>
+        isPostTitleValid(postTitle) &&
+        isPostContentValid(postContent) &&
+        isTagsLengthValid(tagsValue) &&
+        postImage,
+        [postTitle, postContent, tagsValue, postImage]
+    );
 
     return (
         <Paper className={classes.rootPaper} elevation={4}>
         `  <Container>
                 <TextField
+                    error={Boolean(displayPostTitleError(postTitle))}
+                    helperText={postTitleTextHelper(postTitle)}
                     fullWidth
                     margin="normal"
                     name="postTitle"
@@ -88,6 +118,8 @@ const NewPost = props => {
                     onChange={handlePostValuesChange}
                 />
                 <TextField
+                    error={Boolean(displayPostContentError(postContent))}
+                    helperText={PostContentTextHelper(postContent)}
                     fullWidth
                     margin="normal"
                     name="postContent"
@@ -98,8 +130,17 @@ const NewPost = props => {
                     value={postContent}
                     onChange={handlePostValuesChange}
                 />
+                <TagsAutoComplete
+                    name="tagsValue"
+                    categories={categories}
+                    fixedOptions={fixedOptions}
+                    value={tagsValue}
+                    setValue={setTagsValue}
+                    handleChange={handleTagsChange}
+                />
                 <ImageUpload handleImageChange={handleImageChange} />
                 <PostButton
+                    disabled={!isSendButtonEnabled() || isPostBeingCreated}
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}
                 />
