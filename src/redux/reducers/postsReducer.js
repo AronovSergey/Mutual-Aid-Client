@@ -3,10 +3,11 @@ import {
     IS_POST_CREATE_LOADING,
     CREATE_POST_ERROR,
     FETCH_ALL_POSTS,
+    IS_ALL_POSTS_LOADING,
+    FETCH_ALL_POSTS_ERROR,
 } from "../actions/types";
 
 const initialState = {
-    isPostCreated: false,
     isPostBeingCreated: false,
     mainPosts: {
         posts: [],
@@ -33,7 +34,6 @@ export default function postsReducer(state = initialState, action) {
             return {
                 ...state,
                 isPostBeingCreated: false,
-                isPostCreated: true,
                 mainPosts: {
                     ...state.mainPosts,
                     posts: [action.payload.post, ...state.mainPosts.posts],
@@ -48,6 +48,8 @@ export default function postsReducer(state = initialState, action) {
                 ...state,
                 mainPosts: {
                     ...state.mainPosts,
+                    loading: false,
+                    fetched: true,
                     posts: action.payload,
                 },
             };
@@ -56,6 +58,23 @@ export default function postsReducer(state = initialState, action) {
                 ...state,
                 isPostBeingCreated: false,
             };    
+        case IS_ALL_POSTS_LOADING:
+            return {
+                ...state,
+                mainPosts: {
+                ...state.mainPosts,
+                loading: true,
+                },
+            };  
+        case FETCH_ALL_POSTS_ERROR:
+            return {
+                ...state,
+                mainPosts: {
+                ...state.mainPosts,
+                loading: false,
+                error: true,
+              },
+            };              
         default:
             return state;    
     }

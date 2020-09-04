@@ -43,13 +43,13 @@ const Post = ({ postData }) => {
           <Typography gutterBottom variant="h5" component="h2">
             {postData.title}
           </Typography>
-          {/* <Typography
+          <Typography
             className={classes.pos}
             color="textSecondary"
             noWrap={true}
           >
             {postData.tags.toString()}
-          </Typography> */}
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {postData.text}
           </Typography>

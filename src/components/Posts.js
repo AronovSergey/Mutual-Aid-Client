@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-//import CircularProgress from "@material-ui/core/CircularProgress";
-//import ErrorPage from "../../pages/ErrorPage";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import ErrorPage from "./../pages/ErrorPage";
 import Post from "./Post";
 
 const useStyles = makeStyles({
@@ -32,15 +32,15 @@ const Posts = ({ action, postsType }) => {
 
   return (
     <div className={classes.root}>
-      {/* {loading && (
+      {loading && (
         <CircularProgress
           className={classes.loading}
           size="200px"
-          thickness="1"
+          thickness={1}
         />
-      )} */}
+      )}
       {fetched && posts.map((post) => <Post postData={post} key={post._id} />)}
-      {/* {error && <ErrorPage />} */}
+      {error && <ErrorPage />}
     </div>
   );
 };

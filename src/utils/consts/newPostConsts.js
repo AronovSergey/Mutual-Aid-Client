@@ -1,4 +1,4 @@
-export const MAX_VALID_CONTENT_LENGTH = 500;
+export const MAX_VALID_CONTENT_LENGTH = 1000;
 
 export const MIN_VALID_CONTENT_LENGTH = 10;
 

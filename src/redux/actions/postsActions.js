@@ -5,6 +5,8 @@ import {
     IS_POST_CREATE_LOADING,
     CREATE_POST_ERROR,
     FETCH_ALL_POSTS,
+    IS_ALL_POSTS_LOADING,
+    FETCH_ALL_POSTS_ERROR,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
@@ -36,19 +38,17 @@ export const createPost = (postTitle, postContent, tagsValue, postImage) => (dis
     })
     .catch(error => {
         dispatch({ type: CREATE_POST_ERROR });
-        showNotification(
-            "Something went wrong. Please try to submit a post again later.",
-            ERROR);
+        showNotification("Something went wrong. Please try to submit a post again later.", ERROR);
         console.log(error);
     });
 }
 
 export const fetchAllPosts = () => (dispatch) => {
+    dispatch({ type: IS_ALL_POSTS_LOADING });
     axios.get('http://46.101.210.202/api/v1.0/posts')
-    .then(function (response) {
-        dispatch({ type: FETCH_ALL_POSTS, payload: response.data});
+    .then((response) => {
+        if(response.error) { dispatch({ type: FETCH_ALL_POSTS_ERROR }); }
+        else { dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts}); }
     })
-    .catch(function (error) {
-        console.log(error);
-    })
+    .catch((err) => { dispatch({ type: FETCH_ALL_POSTS_ERROR }); });
 }

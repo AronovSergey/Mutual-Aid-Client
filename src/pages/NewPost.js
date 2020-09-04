@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
 import TagsAutoComplete from '../components/TagsAutoComplete';
+import { useStylesPaper } from "../theme";
 import ImageUpload from '../components/ImageUpload';
 import PostButton from '../components/PostButton';
 
@@ -23,19 +23,7 @@ import {
 } from '../utils/errorHandlers/inputErrorHandler';
   
 
-const useStyles = makeStyles((theme) => ({
-    rootPaper: {
-        display: "flex",
-        flexWrap: "wrap",
-        marginTop: "6em",
-        borderRadius: 3,
-        textAlign: "center",
-        marginLeft: "50px",
-      },
-  }));
-
 const NewPost = props => {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const fixedOptions = [];  
 
@@ -43,7 +31,7 @@ const NewPost = props => {
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
 //    const { token } = useSelector((state) => state.auth);
-    const { isPostBeingCreated, isPostCreated } = useSelector(
+    const { isPostBeingCreated } = useSelector(
         (state) => state.posts
     );
 
@@ -51,10 +39,6 @@ const NewPost = props => {
         setPostValues(initPostValues);
         setTagsValue([]);
     }, [setPostValues, setTagsValue]);
-
-    useEffect(() => {
-        if (isPostCreated) resetValues();
-    }, [isPostCreated]);
 
     // usage of useCallBack hook in order to prevent function re-rendering
     const handlePostValuesChange = useCallback((event) => {
@@ -91,6 +75,7 @@ const NewPost = props => {
 
     const handleSubmitPost = useCallback(() => {
         dispatch(createPost(postTitle, postContent, tagsValue, postImage));
+        resetValues();
     }, [postTitle, postContent, tagsValue, postImage]);
     
     // usage of useCallBack hook in order to prevent function re-rendering
@@ -104,7 +89,7 @@ const NewPost = props => {
     );
 
     return (
-        <Paper className={classes.rootPaper} elevation={4}>
+        <Paper className={useStylesPaper().rootPaper} elevation={4}>
         `  <Container>
                 <TextField
                     error={Boolean(displayPostTitleError(postTitle))}
