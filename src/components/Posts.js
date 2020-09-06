@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import ErrorPage from "./../pages/ErrorPage";
-import Post from "./Post";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ErrorPage from './../pages/ErrorPage';
+import Post from './Post';
 
 const useStyles = makeStyles({
   root: {

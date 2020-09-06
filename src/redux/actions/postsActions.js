@@ -7,6 +7,9 @@ import {
     FETCH_ALL_POSTS,
     IS_ALL_POSTS_LOADING,
     FETCH_ALL_POSTS_ERROR,
+    IS_SPECIFIC_POST_LOADING,
+    FETCH_SPECIFIC_POSTS,
+    FETCH_SPECIFIC_POST_ERROR,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
@@ -51,4 +54,14 @@ export const fetchAllPosts = () => (dispatch) => {
         else { dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts}); }
     })
     .catch((err) => { dispatch({ type: FETCH_ALL_POSTS_ERROR }); });
+}
+
+export const fetchSpecificPost = (postID) => (dispatch) => {
+    dispatch({ type: IS_SPECIFIC_POST_LOADING });
+    axios.get(`http://46.101.210.202/api/v1.0/posts/${postID}`)
+    .then((response) => {
+        if(response.error) { dispatch({ type: FETCH_SPECIFIC_POST_ERROR }); }
+        else { dispatch({ type: FETCH_SPECIFIC_POSTS, payload: { post: response.data.post } }); }
+    })
+    .catch((err) => { dispatch({ type: FETCH_SPECIFIC_POST_ERROR }); });
 }

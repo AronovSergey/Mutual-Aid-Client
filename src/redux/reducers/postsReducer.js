@@ -5,6 +5,9 @@ import {
     FETCH_ALL_POSTS,
     IS_ALL_POSTS_LOADING,
     FETCH_ALL_POSTS_ERROR,
+    IS_SPECIFIC_POST_LOADING,
+    FETCH_SPECIFIC_POSTS,
+    FETCH_SPECIFIC_POST_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -13,6 +16,12 @@ const initialState = {
         posts: [],
         loading: false,
         fetched: true,
+        error: false,
+    },
+    fullPost: {
+        post: null,
+        loading: false,
+        fetched: false,
         error: false,
     },
     userPosts: {
@@ -62,19 +71,46 @@ export default function postsReducer(state = initialState, action) {
             return {
                 ...state,
                 mainPosts: {
-                ...state.mainPosts,
-                loading: true,
+                    ...state.mainPosts,
+                    loading: true,
                 },
             };  
         case FETCH_ALL_POSTS_ERROR:
             return {
                 ...state,
                 mainPosts: {
-                ...state.mainPosts,
-                loading: false,
-                error: true,
-              },
-            };              
+                    ...state.mainPosts,
+                    loading: false,
+                    error: true,
+                },
+            };  
+        case FETCH_SPECIFIC_POSTS:
+            return {
+                ...state,
+                fullPost: {
+                    post: action.payload.post,
+                    loading: false,
+                    fetched: true,
+                    error: false,
+                }
+            };  
+        case IS_SPECIFIC_POST_LOADING:
+            return {
+                ...state,
+                fullPost: {
+                    ...state.fullPost,
+                    loading: true,
+                }
+            }; 
+        case FETCH_SPECIFIC_POST_ERROR:
+            return {
+                ...state,
+                fullPost: {
+                    ...state.fullPost,
+                    loading: false,
+                    error: true,
+                }
+            };
         default:
             return state;    
     }

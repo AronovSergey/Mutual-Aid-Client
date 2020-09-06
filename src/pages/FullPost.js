@@ -1,64 +1,49 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchAllPosts } from "..//redux/actions/postsActions";
-import { Paper } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import { useStylesPaper } from "../theme";
-//import CommentsBox from "../components/CommentsBox";
-import { Typography } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
+import { fetchSpecificPost } from '../redux/actions/postsActions';
+import Content from './../components/FullPostContent'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ErrorPage from './../pages/ErrorPage';
+//import CommentsBox from "../components/CommentsBox";  
 //import LikeButton from "../components/LikeButton";
 
-const useStyles = makeStyles((theme) => ({
-  img: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: "1em",
-    marginTop: "0.5em",
-    width: theme.spacing(30),
-    height: theme.spacing(25),
+const useStyles = makeStyles({
+  root: {
+    margin: "5em",
+    textAlign: "center",
   },
-  content: {
-    margin: "1.5em",
+  loading: {
+    margin: "0 auto",
+    marginTop: "50px",
   },
-}));
+});
 
 const FullPost = () => {
     const id = useParams().id;
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     useEffect(() => {
-        dispatch(fetchAllPosts());
-    }, []);
+        dispatch(fetchSpecificPost(id));
+    }, [id]);
 
-    const { posts } = useSelector((state) => state.posts.mainPosts);
+    const { post, loading, error, fetched } = useSelector((state) => state.posts.fullPost);
 
-    const currentPost = posts.find((post) => post._id === id);
-
-    const content = currentPost ? (
-        <React.Fragment>
-          <Typography variant="h4">{currentPost.title}</Typography>
-          <Typography variant="body2">{currentPost.tags}</Typography>
-          <Avatar
-              variant="square"
-              src={currentPost.imageURL}
-              className={classes.img}
-          />
-          <Typography variant="body1">{currentPost.content}</Typography>
-          {/* <LikeButton postId={id} /> */}
-        </React.Fragment>
-    ) : null;
 
     return (
-        <React.Fragment>
-          <Paper elevation={4} className={useStylesPaper().rootPaper}>
-              <Container className={classes.content}>{content}</Container>
-          </Paper>
-          {/* <CommentsBox postId={id} /> */}
-        </React.Fragment>
+      <div className={classes.root}>
+        {loading && (
+          <CircularProgress
+            className={classes.loading}
+            size="200px"
+            thickness={1}
+          />
+        )}
+        {fetched && <Content post={post} />}
+        {error && <ErrorPage />}
+      </div>
     );
 };
 
