@@ -28,6 +28,7 @@ const FullPostContent = ({ post }) => {
             <Container className={classes.content}>
             <Typography variant="h4">{post.title}</Typography>
             <Typography variant="body2">{post.tags}</Typography>
+            <Typography variant="body3">{post.author}</Typography>
             <Avatar
                 variant="square"
                 src={post.imageURL}

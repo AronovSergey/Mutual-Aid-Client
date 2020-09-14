@@ -20,7 +20,7 @@ const SignUp = () => {
   const [signUpDetails, setSignUpDetails] = useState(initSignUpValues);
   const { firstName, lastName, email, password } = signUpDetails;
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.auth);
+  //const { isLoading } = useSelector((state) => state.auth);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -48,7 +48,7 @@ const SignUp = () => {
     (firstName, lastName, password, email, isLoading) => {
       return !isInputValid(firstName, lastName, password, email) || isLoading;
     },
-    [firstName, lastName, password, email, isLoading]
+    [firstName, lastName, password, email, {/*isLoading*/}]
   );
 
   const handleSignUpButton = useCallback(
@@ -115,7 +115,7 @@ const SignUp = () => {
         lastName,
         password,
         email,
-        isLoading
+        // isLoading
       )}
       handleButtonClick={() =>
         handleSignUpButton(firstName, lastName, password, email)

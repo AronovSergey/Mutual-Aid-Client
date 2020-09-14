@@ -19,10 +19,10 @@ const useStyles = makeStyles({
 const Posts = ({ action, postsType }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-//  const { token } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-     dispatch(action());
+     dispatch(action(token));
    }, []);
 
     

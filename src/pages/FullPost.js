@@ -24,9 +24,10 @@ const FullPost = () => {
     const id = useParams().id;
     const dispatch = useDispatch();
     const classes = useStyles();
+    const { token } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        dispatch(fetchSpecificPost(id));
+        dispatch(fetchSpecificPost(id, token));
     }, [id]);
 
     const { post, loading, error, fetched } = useSelector((state) => state.posts.fullPost);

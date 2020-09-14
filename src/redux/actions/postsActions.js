@@ -14,54 +14,66 @@ import {
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
 
-export const createPost = (postTitle, postContent, tagsValue, postImage) => (dispatch) => {
+export const createPost = (postTitle, postContent, tagsValue, postImage, token) => (dispatch) => {
     dispatch({ type: IS_POST_CREATE_LOADING }); 
 
     const formData = new FormData();
     formData.append("image", postImage);
 
-    axios.post('http://46.101.210.202/api/v1.0/images', formData)
+    axios.post('https://www.mutual-aid.me/api/v1.0/images', formData)
     .then(function (response) {
         const imageURL = response.data;
-        axios.post('http://46.101.210.202/api/v1.0/posts', {
-            "title" : postTitle,
-            "content" : postContent,
-            "tags": convertingTagsToAnArray(tagsValue),
-            "imageURL" : imageURL,
-        })
+        axios.post('https://www.mutual-aid.me/api/v1.0/posts', {
+                "title" : postTitle,
+                "content" : postContent,
+                "tags": convertingTagsToAnArray(tagsValue),
+                "imageURL" : imageURL,
+            },
+            {
+                headers:{
+                     "auth-token" : token 
+                    } 
+            },
+        )
         .then(response => {
-            if(response.data.error) { 
-                showNotification(response.data.message, ERROR);
-                dispatch({ type: CREATE_POST_ERROR });
-            } else {
-                dispatch({ type: CREATE_POST, payload: { post: response.data.post } });
-                showNotification(response.data.message, SUCCESS);
-            }
+            dispatch({ type: CREATE_POST, payload: { post: response.data.post } });
+            showNotification("Post submission has succeeded!", SUCCESS);
         })
+        .catch(error => {
+            if(error.response) showNotification(error.response.data, ERROR);
+            dispatch({ type: CREATE_POST_ERROR });
+        });
     })
     .catch(error => {
+        if (error.response) showNotification(error.response.data, ERROR);
         dispatch({ type: CREATE_POST_ERROR });
-        showNotification("Something went wrong. Please try to submit a post again later.", ERROR);
-        console.log(error);
     });
 }
 
-export const fetchAllPosts = () => (dispatch) => {
+export const fetchAllPosts = (token) => (dispatch) => {
     dispatch({ type: IS_ALL_POSTS_LOADING });
-    axios.get('http://46.101.210.202/api/v1.0/posts')
-    .then((response) => {
-        if(response.error) { dispatch({ type: FETCH_ALL_POSTS_ERROR }); }
-        else { dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts}); }
+    axios.get('https://www.mutual-aid.me/api/v1.0/posts', {
+        headers:{ "auth-token" : token } 
     })
-    .catch((err) => { dispatch({ type: FETCH_ALL_POSTS_ERROR }); });
+    .then((response) => {
+        dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts});
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+        dispatch({ type: FETCH_ALL_POSTS_ERROR });   
+    });
 }
 
-export const fetchSpecificPost = (postID) => (dispatch) => {
+export const fetchSpecificPost = (postID, token) => (dispatch) => {
     dispatch({ type: IS_SPECIFIC_POST_LOADING });
-    axios.get(`http://46.101.210.202/api/v1.0/posts/${postID}`)
-    .then((response) => {
-        if(response.error) { dispatch({ type: FETCH_SPECIFIC_POST_ERROR }); }
-        else { dispatch({ type: FETCH_SPECIFIC_POSTS, payload: { post: response.data.post } }); }
+    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/${postID}`, {
+        headers:{ "auth-token" : token } 
     })
-    .catch((err) => { dispatch({ type: FETCH_SPECIFIC_POST_ERROR }); });
+    .then((response) => {
+        dispatch({ type: FETCH_SPECIFIC_POSTS, payload: { post: response.data.post } });
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+        dispatch({ type: FETCH_SPECIFIC_POST_ERROR });
+    });
 }

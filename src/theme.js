@@ -1,7 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     primary: { main: "#1a237e" },
   },
@@ -17,5 +17,3 @@ export const useStylesPaper = makeStyles((theme) => ({
     marginLeft: "50px",
   },
 }));
-
-export default theme;

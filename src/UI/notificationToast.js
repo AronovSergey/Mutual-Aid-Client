@@ -5,7 +5,7 @@ toast.configure();
 
 export const showNotification = (message, notificationType) => {
     toast(message, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
         type: notificationType,
     })
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from "react-router";
 import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,7 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
+import { logout } from './../redux/actions/authActions'
 import { drawerWidth } from '../utils/consts/drawerConsts';
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +100,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { isAuth } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -122,6 +126,22 @@ export default function PrimarySearchAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleSignIn = () => {
+    handleMenuClose();
+    history.push({pathname: `/sign_in`});
+  }
+
+  const handleSignUp = () => {
+    handleMenuClose();
+    history.push({pathname: `/sign_up`});
+  }
+
+  const handleSignOut = () => {
+    handleMenuClose();
+    dispatch(logout());
+    history.push({pathname: `/`});
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -133,8 +153,9 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
+      <MenuItem onClick={handleSignUp}>Sign Up</MenuItem>
+      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
   );
 

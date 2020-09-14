@@ -1,17 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-
 import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
 import TagsAutoComplete from '../components/TagsAutoComplete';
 import { useStylesPaper } from "../theme";
 import ImageUpload from '../components/ImageUpload';
 import PostButton from '../components/PostButton';
-
 import {
     isTagsLengthValid,
     isPostTitleValid,
@@ -22,7 +19,7 @@ import {
     PostContentTextHelper,
 } from '../utils/errorHandlers/inputErrorHandler';
   
-
+  
 const NewPost = props => {
     const dispatch = useDispatch();
     const fixedOptions = [];  
@@ -30,7 +27,7 @@ const NewPost = props => {
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
-//    const { token } = useSelector((state) => state.auth);
+    const { token } = useSelector((state) => state.auth);
     const { isPostBeingCreated } = useSelector(
         (state) => state.posts
     );
@@ -74,9 +71,9 @@ const NewPost = props => {
     }, [setPostValues, postImage]);
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent, tagsValue, postImage));
+        dispatch(createPost(postTitle, postContent, tagsValue, postImage, token));
         resetValues();
-    }, [postTitle, postContent, tagsValue, postImage]);
+    }, [postTitle, postContent, tagsValue, postImage, token]);
     
     // usage of useCallBack hook in order to prevent function re-rendering
     const isSendButtonEnabled = useCallback(

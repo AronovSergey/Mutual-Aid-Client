@@ -1,13 +1,11 @@
 import React from 'react';
-import './App.css';
+import { useSelector } from "react-redux";
 import Layout from './Layout/Layout';
-
 import LoggedInPages from './pages/LoggedInPages';
 import NotLoggedInPages from './pages/NotLoggedInPages';
 
-const isAuth = true;
-
 function App() {
+  const { isAuth } = useSelector((state) => state.auth);
   return (
       <Layout>
           {isAuth ? <LoggedInPages /> : <NotLoggedInPages />}
