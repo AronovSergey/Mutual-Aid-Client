@@ -1,10 +1,11 @@
-import { createMuiTheme } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 export const theme = createMuiTheme({
   palette: {
-    primary: { main: "#1a237e" },
-  },
+    primary: { main: "#1e88e5" },
+    secondary: { main: "#f50057" },
+  }
 });
 
 export const useStylesPaper = makeStyles((theme) => ({

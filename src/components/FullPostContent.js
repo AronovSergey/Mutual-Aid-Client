@@ -1,6 +1,7 @@
 import React from 'react';
-import { makeStyles } from "@material-ui/core/styles";
-import { useStylesPaper } from "../theme";
+import { makeStyles } from '@material-ui/core/styles';
+import { useStylesPaper } from '../theme';
+import LikeButton from './LikeButton'
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -35,7 +36,7 @@ const FullPostContent = ({ post }) => {
                 className={classes.img}
             />
             <Typography variant="body1">{post.content}</Typography>
-            {/* <LikeButton postId={id} /> */}
+            <LikeButton postId={post._id} />
             </Container>
         </Paper>
         {/* <CommentsBox postId={id} /> */}

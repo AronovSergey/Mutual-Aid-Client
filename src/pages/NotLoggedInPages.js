@@ -1,14 +1,14 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import Login from './Login';
+import Signup from './Signup';
 
 const NotLoggedInPages = props => {
     return (
         <Switch>    
-            <Redirect from="/" exact to="/sign_in"/>
-            <Route path="/sign_in" exact component={SignIn}/>
-            <Route path="/sign_up" exact component={SignUp}/>
+            <Redirect from="/" exact to="/login"/>
+            <Route path="/login" exact component={Login}/>
+            <Route path="/signup" exact component={Signup}/>
             <Route render={()=><h1>Not found</h1>}/>
         </Switch> 
     );

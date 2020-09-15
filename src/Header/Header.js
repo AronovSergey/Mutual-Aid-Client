@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router";
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -101,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const { isAuth } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -126,20 +126,9 @@ export default function PrimarySearchAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleSignIn = () => {
-    handleMenuClose();
-    history.push({pathname: `/sign_in`});
-  }
-
-  const handleSignUp = () => {
-    handleMenuClose();
-    history.push({pathname: `/sign_up`});
-  }
-
-  const handleSignOut = () => {
+  const handleLogout = () => {
     handleMenuClose();
     dispatch(logout());
-    history.push({pathname: `/`});
   }
 
   const menuId = 'primary-search-account-menu';
@@ -153,9 +142,15 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
-      <MenuItem onClick={handleSignUp}>Sign Up</MenuItem>
-      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/login">
+        Login
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/signup">
+        Signup
+      </MenuItem>
+      <MenuItem onClick={handleLogout} component={Link} to="/">
+        Logout
+      </MenuItem>
     </Menu>
   );
 

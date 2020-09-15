@@ -13,7 +13,7 @@ import {
   errorSignInEmail,
 } from "../utils/errorHandlers/inputErrorHandler";
 
-const SignIn = () => {
+const Login = () => {
   const initialInput = { email: "", password: "" };
   const history = useHistory();
   const [inputDetails, setInputDetails] = useState(initialInput);
@@ -83,7 +83,7 @@ const SignIn = () => {
       />
       <Grid container>
         <Grid item>
-          <Link href="./sign_up" variant="body2">
+          <Link href="./signup" variant="body2">
             {"Don't have an account? Sign Up"}
           </Link>
         </Grid>
@@ -92,4 +92,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
