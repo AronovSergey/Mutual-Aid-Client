@@ -13,7 +13,7 @@ const LoggedInPages = props => {
             <Route path="/new_post" exact component={NewPost}/>
             <Route path="/test_page" exact component={TestPage}/>
             <Route path="/posts/post/:id" exact component={FullPost}/>
-            <Route render={()=><h1>Not found</h1>}/>
+            <Route render={()=><h1>Page not found</h1>}/>
         </Switch> 
     );
 };

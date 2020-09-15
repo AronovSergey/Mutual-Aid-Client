@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSpecificPost } from '../redux/actions/postsActions';
-import Content from './../components/FullPostContent'
+import Content from './../components/FullPostContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ErrorPage from './../pages/ErrorPage';
 //import CommentsBox from "../components/CommentsBox";  
@@ -24,11 +24,10 @@ const FullPost = () => {
     const id = useParams().id;
     const dispatch = useDispatch();
     const classes = useStyles();
-    const { token } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        dispatch(fetchSpecificPost(id, token));
-    }, [id]);
+        dispatch(fetchSpecificPost(id));
+    }, []);
 
     const { post, loading, error, fetched } = useSelector((state) => state.posts.fullPost);
 

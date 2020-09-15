@@ -27,10 +27,7 @@ const NewPost = props => {
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
-    const { token } = useSelector((state) => state.auth);
-    const { isPostBeingCreated } = useSelector(
-        (state) => state.posts
-    );
+    const { isPostBeingCreated } = useSelector((state) => state.posts);
 
     const resetValues = useCallback(() => {
         setPostValues(initPostValues);
@@ -71,9 +68,9 @@ const NewPost = props => {
     }, [setPostValues, postImage]);
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent, tagsValue, postImage, token));
+        dispatch(createPost(postTitle, postContent, tagsValue, postImage));
         resetValues();
-    }, [postTitle, postContent, tagsValue, postImage, token]);
+    }, [postTitle, postContent, tagsValue, postImage]);
     
     // usage of useCallBack hook in order to prevent function re-rendering
     const isSendButtonEnabled = useCallback(

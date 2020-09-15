@@ -1,17 +1,20 @@
-import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../redux/actions/authActions";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import SignForm from "../components/SignForm";
+import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { signIn } from '../redux/actions/authActions';
+import SignForm from '../components/SignForm';
 import {
   helpTextEmailMessageForSignIn,
   isEmailValid,
   isPasswordEmpty,
   errorSignInEmail,
-} from "../utils/errorHandlers/inputErrorHandler";
+} from '../utils/errorHandlers/inputErrorHandler';
+
+//MUI Stuff
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+
 
 const Login = () => {
   const initialInput = { email: "", password: "" };

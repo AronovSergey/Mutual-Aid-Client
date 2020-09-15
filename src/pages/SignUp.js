@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createUser } from "../redux/actions/authActions";
 import TextField from "@material-ui/core/TextField";
 import SignForm from "../components/SignForm";

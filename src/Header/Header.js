@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from "react-router";
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    color: '#ffffff', 
   },
   search: {
     position: 'relative',
@@ -102,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -186,7 +185,7 @@ export default function PrimarySearchAppBar(props) {
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
-          color="inherit"
+          color="textPrimary"
         >
           <AccountCircle />
         </IconButton>
@@ -214,7 +213,13 @@ export default function PrimarySearchAppBar(props) {
             >
                 <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" noWrap>
+            <Typography 
+              component={Link} 
+              to="/"
+              className={classes.title} 
+              variant="h6" 
+              noWrap
+            >
                 Mutual Aid
             </Typography>
             <div className={classes.search}>
