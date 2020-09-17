@@ -1,5 +1,5 @@
 import React from "react";
-import Posts from "../components/Posts";
+import Posts from "../components/posts/Posts";
 import { fetchAllPosts } from "../redux/actions/postsActions";
 
 const Main = () => {

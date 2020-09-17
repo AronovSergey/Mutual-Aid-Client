@@ -15,30 +15,25 @@ import {
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
 
-export const createUser = (firstName, lastName, email, password) => (dispatch) => {
+export const createUser = (userName, email, password) => (dispatch) => {
+    console.log(userName, email, password)
     dispatch({ type: REGISTER_LOADING }); 
-    axios.post('https://www.mutual-aid.me/api/v1.0/users', {
+    axios.post('https://www.mutual-aid.me/api/v1.0/user/register', {
         "email": email,
         "password": password,
-        "first_name": firstName,
-        "last_name": lastName,
+        "user_name": userName
     })
     .then(response => {
-        if(response.data.error) { 
-            showNotification(response.data.message, ERROR);
-            dispatch({ type: REGISTER_FAIL });
-        } else {
             dispatch({ type: CREATE_USER });
             showNotification("User registration has succeeded!", SUCCESS);
-        }
     })
     .catch(error => {
-        showNotification(error.response.data, ERROR);
+        if(error.response) showNotification(error.response.data, ERROR);
         dispatch({ type: REGISTER_FAIL });
     });
 };
 
-export const signIn = (password, email) => (dispatch) => {
+export const signIn = (password, email, history) => (dispatch) => {
     dispatch({ type: IS_AUTH_LOADING });
     axios.post('https://www.mutual-aid.me/api/v1.0/user/login', {
         "email": email,
@@ -46,12 +41,13 @@ export const signIn = (password, email) => (dispatch) => {
     })
     .then(response => {
             const token = response.data;
-             
+            setLocalStorageAuth(token);
             axios.defaults.headers.common["auth-token"] = token;
             dispatch({ type: SIGN_IN, payload:{ token } });
+            history.push({pathname: `/main`});
     })
     .catch(error => {
-        //showNotification(error.response.data, ERROR);
+        if(error.response) showNotification(error.response.data, ERROR);
         dispatch({ type: AUTH_ERROR });
         emptyLocalStorage();
     });

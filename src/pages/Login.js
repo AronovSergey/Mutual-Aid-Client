@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../redux/actions/authActions';
-import SignForm from '../components/SignForm';
+import SignForm from '../components/users/SignForm';
 import {
   helpTextEmailMessageForSignIn,
   isEmailValid,
@@ -49,8 +49,7 @@ const Login = () => {
 
   const handleSignInButton = useCallback(() => {
     if (isInputValid) {
-      dispatch(signIn(password, email));
-      history.push({pathname: `/main`});
+      dispatch(signIn(password, email, history));
     }
   }, [dispatch, isInputValid, password, email]);
 

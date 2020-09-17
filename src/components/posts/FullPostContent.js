@@ -1,7 +1,7 @@
 import React from 'react';
+import LikeButton from '../like/LikeButton'
+
 import { makeStyles } from '@material-ui/core/styles';
-import { useStylesPaper } from '../theme';
-import LikeButton from './LikeButton'
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -19,13 +19,14 @@ const useStyles = makeStyles((theme) => ({
     content: {
       margin: "1.5em",
     },
+    rootPaper: theme.rootPaper,
   }));
 
 const FullPostContent = ({ post }) => {
     const classes = useStyles();
     return(
       <React.Fragment>
-        <Paper elevation={4} className={useStylesPaper().rootPaper}>
+        <Paper elevation={4} className={classes.rootPaper}>
             <Container className={classes.content}>
             <Typography variant="h4">{post.title}</Typography>
             <Typography variant="body2">{post.tags}</Typography>

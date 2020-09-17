@@ -1,5 +1,5 @@
 import React from 'react';
-import { showNotification } from './../UI/notificationToast';
+import { showNotification } from '../UI/notificationToast';
 import { SUCCESS } from '../utils/consts/notificationTypes';
 
 const Test = () => {

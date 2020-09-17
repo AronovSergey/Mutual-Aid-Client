@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useIsMount } from "../customHooks/useIsMount";
+import { useIsMount } from "../../customHooks/useIsMount";
 import {
     likeStatus
-} from "../redux/actions/likeActions";
+} from "../../redux/actions/likeActions";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";

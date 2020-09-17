@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
-import Copyright from "../components/Copyright";
+import Copyright from "../sharedComponents/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

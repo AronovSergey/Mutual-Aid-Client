@@ -141,6 +141,9 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+        Profile
+      </MenuItem>
       <MenuItem onClick={handleMenuClose} component={Link} to="/login">
         Login
       </MenuItem>

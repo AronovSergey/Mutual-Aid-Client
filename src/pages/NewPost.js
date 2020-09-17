@@ -1,14 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
-import TagsAutoComplete from '../components/TagsAutoComplete';
-import { useStylesPaper } from "../theme";
-import ImageUpload from '../components/ImageUpload';
-import PostButton from '../components/PostButton';
+import TagsAutoComplete from '../components/posts/TagsAutoComplete';
+import ImageUpload from '../components/posts/ImageUpload';
+import PostButton from '../components/posts/PostButton';
 import {
     isTagsLengthValid,
     isPostTitleValid,
@@ -18,12 +14,20 @@ import {
     postTitleTextHelper,
     PostContentTextHelper,
 } from '../utils/errorHandlers/inputErrorHandler';
-  
-  
+//MUI Stuff
+import { makeStyles } from '@material-ui/styles'
+import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles(theme => ({
+    rootPaper: theme.rootPaper
+  })) 
+
 const NewPost = props => {
+    const classes = useStyles()
     const dispatch = useDispatch();
     const fixedOptions = [];  
-
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
@@ -83,7 +87,7 @@ const NewPost = props => {
     );
 
     return (
-        <Paper className={useStylesPaper().rootPaper} elevation={4}>
+        <Paper className={classes.rootPaper} elevation={4}>
         `  <Container>
                 <TextField
                     error={Boolean(displayPostTitleError(postTitle))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import Error from "../components/Error";
+import Error from "../components/sharedComponents/Error";
 
 const notFoundContent = (
   <div>

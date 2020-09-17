@@ -17,3 +17,6 @@ export const IS_AUTH_LOADING = "IS_AUTH_LOADING";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const SIGN_IN = "SIGN_IN";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
+export const SET_USER_PROFILE = "SET_USER";
+export const LOADING_USER_PROFILE = "LOADING_USER_PROFILE";

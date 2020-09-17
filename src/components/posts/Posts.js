@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from './CircularProgress';
-import ErrorPage from './../pages/ErrorPage';
+import CircularProgress from './../../UI/CircularProgress';
+import ErrorPage from '../../pages/errorPage';
 import Post from './Post';
 
 const useStyles = makeStyles({

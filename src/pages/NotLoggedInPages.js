@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
-import CircularProgress from './../components/CircularProgress';
+import Login from './login';
+import Signup from './signup';
+import CircularProgress from '../UI/CircularProgress';
 
 const NotLoggedInPages = props => {
     return (

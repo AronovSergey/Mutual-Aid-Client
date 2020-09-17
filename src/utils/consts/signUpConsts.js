@@ -1,6 +1,5 @@
 export const initSignUpValues = {
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     password: "",
   };

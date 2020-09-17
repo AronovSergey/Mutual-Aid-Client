@@ -23,6 +23,7 @@ export const createPost = (postTitle, postContent, tagsValue, postImage) => (dis
     axios.post('https://www.mutual-aid.me/api/v1.0/images', formData)
     .then(function (response) {
         const imageURL = response.data;
+        console.log(imageURL);
         axios.post('https://www.mutual-aid.me/api/v1.0/posts', {
                 "title" : postTitle,
                 "content" : postContent,

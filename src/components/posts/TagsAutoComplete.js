@@ -1,7 +1,8 @@
-import React from "react";
-import Chip from "@material-ui/core/Chip";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import React from 'react';
+//MUI Stuff
+import Chip from '@material-ui/core/Chip';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const TagsAutoComplete = ({ categories, fixedOptions, value, handleChange,}) => {
     return (

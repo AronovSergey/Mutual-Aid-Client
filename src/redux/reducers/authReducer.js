@@ -12,6 +12,7 @@ const initialState = {
     token: localStorage.getItem("token"),
     isAuth: localStorage.getItem("isAuth"),
     isLoading: false,
+    
 };
 
 export default function authReducer(state = initialState, action) {

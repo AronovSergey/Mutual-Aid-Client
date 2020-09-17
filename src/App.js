@@ -1,20 +1,19 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import Layout from './Layout/Layout';
 import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import Layout from './Layout/Layout';
 //Routes
 import store from './redux/store';
-import LoggedInPages from './pages/LoggedInPages';
-import NotLoggedInPages from './pages/NotLoggedInPages';
+import LoggedInPages from './pages/loggedInPages';
+import NotLoggedInPages from './pages/notLoggedInPages';
 import { SIGN_IN } from './redux/actions/types';
 //MUI Stuff
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
 
-
-const token = localStorage.token
+const token = localStorage.token;
 if(token) {
   store.dispatch({ type: SIGN_IN, payload:{ token } })
   axios.defaults.headers.common["auth-token"] = token;

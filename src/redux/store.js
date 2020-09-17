@@ -4,11 +4,13 @@ import thunk from "redux-thunk";
 
 import postsReducer from './reducers/postsReducer';
 import authReducer from './reducers/authReducer';
+import usersReducer from './reducers/usersReducer';
 
 
 const rootReducer = combineReducers({
   posts: postsReducer,
   auth: authReducer,
+  users: usersReducer,
 });
 
 const store = createStore(
