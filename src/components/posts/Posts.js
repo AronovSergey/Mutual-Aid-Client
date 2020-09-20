@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from './../../UI/CircularProgress';
-import ErrorPage from '../../pages/errorPage';
+import Error from './../sharedComponents/Error';
 import Post from './Post';
 
 const useStyles = makeStyles({
@@ -29,7 +29,7 @@ const Posts = ({ action, postsType }) => {
     <div className={classes.root}>
       {loading && (<CircularProgress/>)}
       {fetched && posts.map((post) => <Post postData={post} key={post._id} />)}
-      {error && <ErrorPage />}
+      {error && <Error>Fetching Error</Error>}
     </div>
   );
 };
