@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react';
-import axios from 'axios';
 import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Layout from './Layout/Layout';
@@ -16,7 +15,6 @@ import { theme } from './theme';
 const token = localStorage.token;
 if(token) {
   store.dispatch({ type: SIGN_IN, payload:{ token } })
-  axios.defaults.headers.common["auth-token"] = token;
 } 
 
 function App() {

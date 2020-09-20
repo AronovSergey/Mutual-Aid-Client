@@ -23,14 +23,12 @@ export const createPost = (postTitle, postContent, tagsValue, postImage) => (dis
     axios.post('https://www.mutual-aid.me/api/v1.0/images', formData)
     .then(function (response) {
         const imageURL = response.data;
-        console.log(imageURL);
         axios.post('https://www.mutual-aid.me/api/v1.0/posts', {
                 "title" : postTitle,
                 "content" : postContent,
                 "tags": convertingTagsToAnArray(tagsValue),
                 "imageURL" : imageURL,
-            }
-        )
+        })
         .then(response => {
             dispatch({ type: CREATE_POST, payload: { post: response.data.post } });
             showNotification("Post submission has succeeded!", SUCCESS);
@@ -46,9 +44,13 @@ export const createPost = (postTitle, postContent, tagsValue, postImage) => (dis
     });
 }
 
-export const fetchAllPosts = () => (dispatch) => {
+export const fetchAllPosts = (token) => (dispatch) => {
     dispatch({ type: IS_ALL_POSTS_LOADING });
-    axios.get('https://www.mutual-aid.me/api/v1.0/posts')
+    axios.get('https://www.mutual-aid.me/api/v1.0/posts' ,{
+        headers: {
+            "auth-token": token,
+        }
+    })
     .then((response) => {
         dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts });
     })

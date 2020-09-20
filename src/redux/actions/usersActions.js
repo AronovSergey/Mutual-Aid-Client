@@ -1,26 +1,74 @@
 import axios from 'axios';
-import { ERROR } from '../../utils/consts/notificationTypes';
+import { ERROR, SUCCESS } from '../../utils/consts/notificationTypes';
 import { showNotification } from './../../UI/notificationToast';
-import { SET_USER_PROFILE, LOADING_USER_PROFILE } from './../actions/types';
+import { 
+    SET_USER_PROFILE, 
+    LOADING_USER_PROFILE, 
+    SET_PROFILE_IMAGE, 
+    LOADING_PROFILE_IMAGE,
+    SET_USER_DETAILS,
+    LOADING_USER_DETAILS,
+} from './../actions/types';
 
 
-export const fetchUserProfile = () => (dispatch) => {
+export const fetchUserProfile = (token) => (dispatch) => {
     dispatch({ type: LOADING_USER_PROFILE });
-    axios.get('https://www.mutual-aid.me/api/v1.0/user/profile')
+    axios.get('https://www.mutual-aid.me/api/v1.0/user/profile',{
+        headers: {
+            "auth-token": token,
+        }
+    })
     .then((response) => {
         dispatch({ type: SET_USER_PROFILE, payload: response.data });
     })
     .catch((error) => {
         if(error.response) showNotification(error.response.data, ERROR);
     })
-}
+};
 
-export const uploadImage = (formData) => (dispatch) => {
-    //dispatch({ type: LOADING_USER });
+export const uploadImage = (token, formData, userID) => (dispatch) => {
+    dispatch({ type: LOADING_PROFILE_IMAGE });
     axios.post('https://www.mutual-aid.me/api/v1.0/images', formData)
-    .then((res) => {
-      console.log(res)
-    //dispatch(getUserData());
+    .then((response) => {
+        const imageURL = response.data;
+        dispatch({ type: SET_PROFILE_IMAGE, payload: { imageURL }});
+        axios.put(`https://www.mutual-aid.me/api/v1.0/user/${userID}`,
+        {
+            user: {imageURL},
+        },
+        {
+            headers: {
+                "auth-token": token,
+            }
+        })
+        .then((response) => {
+            showNotification(response.data, SUCCESS)
+        })
+        .catch((error) => {
+            if(error.response) showNotification(error.response.data, ERROR);
+        })
     })
-    .catch((err) => console.log(err));
-  };
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+    })
+};
+
+export const editUserDetails = (token, user, userID) => (dispatch) => {
+    dispatch({ type:LOADING_USER_DETAILS });
+    axios.put(`https://www.mutual-aid.me/api/v1.0/user/${userID}`, 
+        {
+            user
+        },
+        {
+            headers: {
+                "auth-token": token,
+            }
+        })
+        .then((response) => {
+            dispatch({ type: SET_USER_DETAILS, payload: { user }});
+            showNotification(response.data, SUCCESS)
+        })
+        .catch((error) => {
+            if(error.response) showNotification(error.response.data, ERROR);
+        })
+};

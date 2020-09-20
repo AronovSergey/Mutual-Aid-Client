@@ -1,15 +1,17 @@
 import React, { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchUserProfile, uploadImage } from '../redux/actions/usersActions';
 import dayjs from 'dayjs';
+import { fetchUserProfile, uploadImage } from '../redux/actions/usersActions';
 import CircularProgress from './../UI/CircularProgress';
-import MyButton from './../components/sharedComponents/MyButton';
+import EditDetails from './../components/users/EditDetails';
 //MUI Stuff
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from "@material-ui/core/Tooltip";
 // Icons
 import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
@@ -24,20 +26,20 @@ const useStyles = makeStyles(theme => ({
 const Profile = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-
-    const { email, password, first_name, last_name, imageURL, bio, website, location, createdAt } = useSelector(
+    const { token } = useSelector((state) => state.auth);
+    const { _id, first_name, last_name, user_name, imageURL, bio, website, location, createdAt } = useSelector(
         (state) => state.users.userProfile);
     const { isLoading, fetched } = useSelector((state) => state.users);  
 
     useEffect(() => {
-        dispatch(fetchUserProfile());
+        dispatch(fetchUserProfile(token));
       }, []);
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
         const formData = new FormData();
         formData.append('image', image, image.name);
-        dispatch(uploadImage(formData));
+        dispatch(uploadImage(token, formData, _id));
     };
     const handleEditPicture = () => {
         const fileInput = document.getElementById('imageInput');
@@ -58,26 +60,32 @@ const Profile = () => {
                                 hidden="hidden"
                                 onChange={handleImageChange}
                             />
-                            <MyButton
-                                tip="Edit profile picture"
-                                onClick={handleEditPicture}
-                                btnClassName="button"
-                            >
-                                <EditIcon color="primary" />
-                            </MyButton>
+                            <Tooltip title="Edit profile picture" placement="top">
+                                <IconButton onClick={handleEditPicture} className="button">
+                                    <EditIcon color="primary"/>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <hr />
                         <div className="profile-details">
                             <MuiLink 
                                 component={Link} 
-                                to={`/user/${first_name}`}
+                                to={`/user/${user_name}`}
                                 color="primary"
                                 variant="h5"
                             >
-                                {first_name}
+                                {user_name}
                             </MuiLink>
                            
                             <hr />
+                            {first_name && last_name && (
+                                <Fragment>
+                                    <Typography variant="body2">
+                                        {`${first_name} ${last_name}`}
+                                    </Typography>
+                                    <hr />
+                                </Fragment>
+                            )}
                             {bio && <Typography variant="body2">{bio}</Typography>}
                             <hr />
                             {location && (
@@ -99,7 +107,7 @@ const Profile = () => {
                             <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                         </div>
                     </div>
-                    
+                    <EditDetails />
                 </Paper>
             )}  
         </div>

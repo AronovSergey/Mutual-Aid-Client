@@ -51,7 +51,6 @@ export const theme = createMuiTheme({
       '& button': {
         position: 'absolute',
         top: '80%',
-        left: '70%'
       }
     },
     '& .profile-image': {

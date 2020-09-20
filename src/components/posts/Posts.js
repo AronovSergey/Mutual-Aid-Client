@@ -15,12 +15,14 @@ const useStyles = makeStyles({
 const Posts = ({ action, postsType }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
   const { posts, loading, fetched, error } = useSelector(
     (state) => state.posts[postsType]
   );
+  
 
   useEffect(() => {
-     dispatch(action());
+     dispatch(action(token));
    }, []);
 
   return (

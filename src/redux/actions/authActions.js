@@ -42,7 +42,6 @@ export const signIn = (password, email, history) => (dispatch) => {
     .then(response => {
             const token = response.data;
             setLocalStorageAuth(token);
-            axios.defaults.headers.common["auth-token"] = token;
             dispatch({ type: SIGN_IN, payload:{ token } });
             history.push({pathname: `/main`});
     })

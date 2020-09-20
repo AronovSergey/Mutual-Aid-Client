@@ -1,7 +1,11 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
+import { logout } from './../redux/actions/authActions'
+import { drawerWidth } from '../utils/consts/drawerConsts';
+//MUI Stuff
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,11 +18,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { logout } from './../redux/actions/authActions'
-import { drawerWidth } from '../utils/consts/drawerConsts';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -32,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    color: '#ffffff', 
   },
   search: {
     position: 'relative',
@@ -102,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -141,18 +142,26 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
-        Profile
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={Link} to="/login">
-        Login
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={Link} to="/signup">
-        Signup
-      </MenuItem>
-      <MenuItem onClick={handleLogout} component={Link} to="/">
-        Logout
-      </MenuItem>
+      {isAuth && (
+        <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+          Profile
+        </MenuItem>
+      )}
+      {isAuth && (
+        <MenuItem onClick={handleLogout} component={Link} to="/">
+          Logout
+        </MenuItem>
+      )}
+      {!isAuth && (
+        <MenuItem onClick={handleMenuClose} component={Link} to="/login">
+          Login
+        </MenuItem>
+      )}
+      {!isAuth && (
+        <MenuItem onClick={handleMenuClose} component={Link} to="/signup">
+          Signup
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -168,14 +177,6 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
@@ -188,7 +189,7 @@ export default function PrimarySearchAppBar(props) {
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
-          color="textPrimary"
+          color="inherit"
         >
           <AccountCircle />
         </IconButton>
@@ -222,6 +223,7 @@ export default function PrimarySearchAppBar(props) {
               className={classes.title} 
               variant="h6" 
               noWrap
+              color="inherit"
             >
                 Mutual Aid
             </Typography>
@@ -240,11 +242,6 @@ export default function PrimarySearchAppBar(props) {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                    <MailIcon />
-                </Badge>
-                </IconButton>
                 <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Badge badgeContent={17} color="secondary">
                     <NotificationsIcon />
