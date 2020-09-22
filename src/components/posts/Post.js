@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import LikeButton from './LikeButton';
+import DeleteButton from './DeleteButton';
 import MyButton from './../sharedComponents/MyButton';
 //MUI Stuff
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,15 +39,17 @@ const useStyles = makeStyles({
 });
 
 const Post = ({ postData }) => {
+  dayjs.extend(relativeTime);
+  const classes = useStyles();
   const { _id, author, date, title, content, imageURL, tags, likes, commentCount = 0  } = postData;
   const [isLiked, setIsLiked] = useState(false);
   const userLikes = useSelector((state) => state.users.likes);  
-  const classes = useStyles();
-  dayjs.extend(relativeTime);
+  const user_name = useSelector((state) => state.users.userProfile.user_name);
+  
 
   useEffect(() => {
     setIsLiked(userLikes && userLikes.find(like => like.postID === _id))
-  }, [userLikes])
+  }, [userLikes]);
 
   
 
@@ -73,6 +76,8 @@ const Post = ({ postData }) => {
           >
             {author}
           </Typography>
+
+          
 
           <Typography 
             variant="body2" 
@@ -103,7 +108,11 @@ const Post = ({ postData }) => {
               <ChatIcon color="primary"/>
             </MyButton>
             <span>{commentCount} comments</span>
+            {user_name === author && (
+              <DeleteButton postID={_id}/>
+            )}
           </div>
+          
         </CardContent>
       </CardActionArea>
     </Card>

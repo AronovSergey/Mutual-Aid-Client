@@ -81,7 +81,6 @@ export const fetchUserLikes = (token) => (dispatch) => {
         }
     })
     .then((response) => {
-        console.log(response.data)
         dispatch({ type: SET_USER_LIKES, payload: {likes: response.data} });
     })
     .catch((error) => {

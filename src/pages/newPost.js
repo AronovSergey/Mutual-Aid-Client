@@ -4,7 +4,7 @@ import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
 import TagsAutoComplete from '../components/posts/TagsAutoComplete';
 import ImageUpload from '../components/posts/ImageUpload';
-import LikeButton from '../components/posts/LikeButton';
+import PostButton from '../components/posts/PostButton';
 import {
     isTagsLengthValid,
     isPostTitleValid,
@@ -28,11 +28,12 @@ const NewPost = props => {
     const classes = useStyles()
     const dispatch = useDispatch();
     const fixedOptions = [];  
-    const { token } = useSelector((state) => state.auth);
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
+    const { token } = useSelector((state) => state.auth);
     const { isPostBeingCreated } = useSelector((state) => state.posts);
+    const { user_name } = useSelector((state) => state.users.userProfile);
 
     const resetValues = useCallback(() => {
         setPostValues(initPostValues);
@@ -73,9 +74,9 @@ const NewPost = props => {
     }, [setPostValues, postImage]);
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent, tagsValue, postImage, token));
+        dispatch(createPost(user_name, postTitle, postContent, tagsValue, postImage, token));
         resetValues();
-    }, [postTitle, postContent, tagsValue, postImage]);
+    }, [user_name, postTitle, postContent, tagsValue, postImage]);
     
     // usage of useCallBack hook in order to prevent function re-rendering
     const isSendButtonEnabled = useCallback(
@@ -123,7 +124,7 @@ const NewPost = props => {
                     handleChange={handleTagsChange}
                 />
                 <ImageUpload handleImageChange={handleImageChange} />
-                <LikeButton
+                <PostButton
                     disabled={!isSendButtonEnabled() || isPostBeingCreated}
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}

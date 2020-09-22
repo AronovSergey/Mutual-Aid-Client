@@ -7,6 +7,7 @@ import {
     FETCH_ALL_POSTS_ERROR,
     LIKE_POST,
     UNLIKE_POST,
+    DELETE_POST,
 } from "../actions/types";
 
 const initialState = {
@@ -32,15 +33,8 @@ export default function postsReducer(state = initialState, action) {
             return {
                 ...state,
                 isPostBeingCreated: false,
-                mainPosts: {
-                    ...state.mainPosts,
-                    posts: [action.payload.post, ...state.mainPosts.posts],
-                },
-                userPosts: {
-                    ...state.userPosts,
-                    posts: [action.payload.post, ...state.userPosts.posts],
-                },
-            };
+                posts: [action.payload.post, ...state.posts],
+            }
         case CREATE_POST_ERROR:
             return {
                 ...state,
@@ -67,12 +61,22 @@ export default function postsReducer(state = initialState, action) {
             };  
         case LIKE_POST:
         case UNLIKE_POST:
-            let index = state.posts.findIndex(
+            const indexLike = state.posts.findIndex(
                 (post) => post._id === action.payload.post._id);
-            state.posts[index] = action.payload.post; 
+            state.posts[indexLike] = action.payload.post; 
             return {
                 ...state
             };
+        case DELETE_POST:
+            console.log(action.payload.postID)
+            const indexDelete = state.posts.findIndex(
+                post => post._id === action.payload.postID
+            );
+            console.log(indexDelete)
+            state.posts.splice(indexDelete, 1);
+            return {
+                ...state 
+            }
         default:
             return state;    
     }

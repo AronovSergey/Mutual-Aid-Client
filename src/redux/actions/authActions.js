@@ -15,10 +15,9 @@ import {
 } from "../../utils/consts/authConsts";
 import { showNotification } from '../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
-import { fetchUserLikes } from './usersActions';
+import { fetchUserLikes, fetchUserProfile } from './usersActions';
 
-export const createUser = (userName, email, password) => (dispatch) => {
-    console.log(userName, email, password)
+export const createUser = (userName, email, password, history) => (dispatch) => {
     dispatch({ type: REGISTER_LOADING }); 
     axios.post('https://www.mutual-aid.me/api/v1.0/user/register', {
         "email": email,
@@ -28,6 +27,7 @@ export const createUser = (userName, email, password) => (dispatch) => {
     .then(response => {
             dispatch({ type: CREATE_USER });
             showNotification("User registration has succeeded!", SUCCESS);
+            history.push({pathname: `/login`});
     })
     .catch(error => {
         if(error.response) showNotification(error.response.data, ERROR);
@@ -45,7 +45,8 @@ export const signIn = (password, email, history) => (dispatch) => {
             const token = response.data;
             setLocalStorageAuth(token);
             dispatch({ type: SIGN_IN, payload:{ token } });
-            dispatch(fetchUserLikes(token))
+            dispatch(fetchUserLikes(token));
+            dispatch(fetchUserProfile(token));
             history.push({pathname: `/main`});
     })
     .catch(error => {

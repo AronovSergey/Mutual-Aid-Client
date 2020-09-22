@@ -1,5 +1,5 @@
 export const UPDATE_NOTIFICATION = "UPDATE_NOTIFICATION";
-
+//Post reducer types 
 export const CREATE_POST = "CREATE_POST";
 export const CREATE_POST_ERROR = "CREATE_POST_ERROR";
 export const IS_POST_CREATE_LOADING = "IS_POST_CREATE_LOADING";
@@ -9,7 +9,8 @@ export const FETCH_ALL_POSTS_ERROR = "FETCH_ALL_POSTS_ERROR";
 export const IS_SPECIFIC_POST_LOADING = "IS_SPECIFIC_POST_LOADING";
 export const FETCH_SPECIFIC_POSTS = "FETCH_SPECIFIC_POSTS"; 
 export const FETCH_SPECIFIC_POST_ERROR = "FETCH_SPECIFIC_POST_ERROR";
-
+export const DELETE_POST = "DELETE_POST";
+//Auth reducer types
 export const REGISTER_LOADING = "REGISTER_LOADING";
 export const CREATE_USER = "CREATE_USER";
 export const REGISTER_FAIL = "REGISTER_FAIL";
@@ -17,14 +18,14 @@ export const IS_AUTH_LOADING = "IS_AUTH_LOADING";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const SIGN_IN = "SIGN_IN";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-
+//User reducer types 
 export const SET_USER_PROFILE = "SET_USER";
 export const LOADING_USER_PROFILE = "LOADING_USER_PROFILE";
 export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
 export const LOADING_PROFILE_IMAGE = "LOADING_PROFILE_IMAGE";
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOADING_USER_DETAILS = "LOADING_USER_DETAILS";
-
+//Post data reducer types
 export const UNLIKE_POST = "UNLIKE_POST";
 export const LIKE_POST = "LIKE_POST";
 export const SET_USER_LIKES = "SET_USER_LIKES";

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { createUser } from '../redux/actions/authActions';
 import TextField from '@material-ui/core/TextField';
 import SignForm from '../components/users/SignForm';
@@ -17,9 +18,10 @@ import {
 } from '../utils/errorHandlers/inputErrorHandler';
 
 const SignUp = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [signUpDetails, setSignUpDetails] = useState(initSignUpValues);
   const { userName, email, password } = signUpDetails;
-  const dispatch = useDispatch();
 
   const handleInputChange = useCallback(
     (event) => {
@@ -52,7 +54,7 @@ const SignUp = () => {
   const handleSignUpButton = useCallback(
     (userName, password, email) => {
       if (isInputValid(userName, password, email)) {
-        dispatch(createUser(userName, email, password));
+        dispatch(createUser(userName, email, password, history));
       }
     },
     [userName, password, email]

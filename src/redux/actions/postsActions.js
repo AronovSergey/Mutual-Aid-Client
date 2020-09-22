@@ -9,11 +9,12 @@ import {
     FETCH_ALL_POSTS_ERROR,
     LIKE_POST,
     UNLIKE_POST,
+    DELETE_POST,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
 
-export const createPost = (postTitle, postContent, tagsValue, postImage, token) => (dispatch) => {
+export const createPost = (user_name, postTitle, postContent, tagsValue, postImage, token) => (dispatch) => {
     dispatch({ type: IS_POST_CREATE_LOADING }); 
 
     const formData = new FormData();
@@ -23,6 +24,7 @@ export const createPost = (postTitle, postContent, tagsValue, postImage, token) 
     .then(function (response) {
         const imageURL = response.data;
         axios.post('https://www.mutual-aid.me/api/v1.0/posts', {
+            "author": user_name,
             "title" : postTitle,
             "content" : postContent,
             "tags": convertingTagsToAnArray(tagsValue),
@@ -91,4 +93,19 @@ export const unlikePost = (postID, token) => (dispatch) => {
         if(error.response) showNotification(error.response.data, ERROR);
     });
     
+}
+
+export const deletePost = (postID, token) => (dispatch) => {
+    axios.delete(`https://www.mutual-aid.me/api/v1.0/posts/${postID}`, {
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then(res => {
+        showNotification(res.data, SUCCESS);
+        dispatch({ type: DELETE_POST, payload: { postID }})
+    })
+    .catch(error => {
+        if (error.response) showNotification(error.response.data, ERROR);
+    });
 }
