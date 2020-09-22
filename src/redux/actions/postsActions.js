@@ -7,14 +7,13 @@ import {
     FETCH_ALL_POSTS,
     IS_ALL_POSTS_LOADING,
     FETCH_ALL_POSTS_ERROR,
-    IS_SPECIFIC_POST_LOADING,
-    FETCH_SPECIFIC_POSTS,
-    FETCH_SPECIFIC_POST_ERROR,
+    LIKE_POST,
+    UNLIKE_POST,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
 
-export const createPost = (postTitle, postContent, tagsValue, postImage) => (dispatch) => {
+export const createPost = (postTitle, postContent, tagsValue, postImage, token) => (dispatch) => {
     dispatch({ type: IS_POST_CREATE_LOADING }); 
 
     const formData = new FormData();
@@ -24,10 +23,15 @@ export const createPost = (postTitle, postContent, tagsValue, postImage) => (dis
     .then(function (response) {
         const imageURL = response.data;
         axios.post('https://www.mutual-aid.me/api/v1.0/posts', {
-                "title" : postTitle,
-                "content" : postContent,
-                "tags": convertingTagsToAnArray(tagsValue),
-                "imageURL" : imageURL,
+            "title" : postTitle,
+            "content" : postContent,
+            "tags": convertingTagsToAnArray(tagsValue),
+            "imageURL" : imageURL,
+        },
+        {
+            headers: {
+                "auth-token": token,
+            }
         })
         .then(response => {
             dispatch({ type: CREATE_POST, payload: { post: response.data.post } });
@@ -60,14 +64,31 @@ export const fetchAllPosts = (token) => (dispatch) => {
     });
 }
 
-export const fetchSpecificPost = (postID) => (dispatch) => {
-    dispatch({ type: IS_SPECIFIC_POST_LOADING });
-    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/${postID}`)
-    .then((response) => {
-        dispatch({ type: FETCH_SPECIFIC_POSTS, payload: { post: response.data.post } });
+export const likePost = (postID, token) => (dispatch) => {
+    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/${postID}/like` ,{
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then(res => {
+        dispatch({ type: LIKE_POST, payload: { post: res.data } })
     })
     .catch((error) => {
         if(error.response) showNotification(error.response.data, ERROR);
-        dispatch({ type: FETCH_SPECIFIC_POST_ERROR });
     });
+}
+
+export const unlikePost = (postID, token) => (dispatch) => {
+    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/${postID}/unlike` ,{
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then(res => {
+        dispatch({ type: UNLIKE_POST, payload: { post: res.data } })
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+    });
+    
 }

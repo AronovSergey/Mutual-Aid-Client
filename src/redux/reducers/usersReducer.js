@@ -5,6 +5,10 @@ import {
     LOADING_PROFILE_IMAGE,
     SET_USER_DETAILS,
     LOADING_USER_DETAILS,
+    LIKE_POST,
+    UNLIKE_POST,
+    SET_USER_LIKES,
+    DELETE_USER_LIKES,
  } from './../actions/types';
 
 const initialState = {
@@ -50,6 +54,34 @@ export default function(state = initialState, action){
             isLoading: false,
             fetched: true,
         };
+        case LIKE_POST:
+            return {
+                ...state,
+                likes: [
+                    ...state.likes,
+                  {
+                    userHandle: state.userProfile._id,
+                    postID: action.payload.post._id
+                  }
+                ]
+              };
+        case UNLIKE_POST:
+            return{
+                ...state,
+                likes: state.likes.filter(
+                    like => like.postID !== action.payload.post._id
+                )
+            }
+        case SET_USER_LIKES:
+            return{
+                ...state,
+                likes: action.payload.likes
+            }
+        case DELETE_USER_LIKES:
+            return{
+                ...state,
+                likes: []
+            }
         default:
             return state;
     }

@@ -5,31 +5,20 @@ import {
     FETCH_ALL_POSTS,
     IS_ALL_POSTS_LOADING,
     FETCH_ALL_POSTS_ERROR,
-    IS_SPECIFIC_POST_LOADING,
-    FETCH_SPECIFIC_POSTS,
-    FETCH_SPECIFIC_POST_ERROR,
+    LIKE_POST,
+    UNLIKE_POST,
 } from "../actions/types";
 
 const initialState = {
+    loading: false,
+    fetched: true,
+    error: false,
+    //New post erea
     isPostBeingCreated: false,
-    mainPosts: {
-        posts: [],
-        loading: false,
-        fetched: true,
-        error: false,
-    },
-    fullPost: {
-        post: null,
-        loading: false,
-        fetched: false,
-        error: false,
-    },
-    userPosts: {
-        posts: [],
-        loading: false,
-        fetched: false,
-        error: false,
-    },
+    //Main page erea
+    posts: [],
+    //Likes and comments erea     
+    post: {},
 };
 
 export default function postsReducer(state = initialState, action) {
@@ -52,64 +41,37 @@ export default function postsReducer(state = initialState, action) {
                     posts: [action.payload.post, ...state.userPosts.posts],
                 },
             };
-        case FETCH_ALL_POSTS:
-            return{
-                ...state,
-                mainPosts: {
-                    ...state.mainPosts,
-                    loading: false,
-                    fetched: true,
-                    posts: action.payload,
-                },
-            };
         case CREATE_POST_ERROR:
             return {
                 ...state,
                 isPostBeingCreated: false,
             };    
+        case FETCH_ALL_POSTS:
+            return{
+                ...state,
+                loading: false,
+                fetched: true,
+                posts: action.payload,
+            };
+
         case IS_ALL_POSTS_LOADING:
             return {
                 ...state,
-                mainPosts: {
-                    ...state.mainPosts,
-                    loading: true,
-                },
+                loading: true,
             };  
         case FETCH_ALL_POSTS_ERROR:
             return {
                 ...state,
-                mainPosts: {
-                    ...state.mainPosts,
-                    loading: false,
-                    error: true,
-                },
+                loading: false,
+                error: true,
             };  
-        case FETCH_SPECIFIC_POSTS:
+        case LIKE_POST:
+        case UNLIKE_POST:
+            let index = state.posts.findIndex(
+                (post) => post._id === action.payload.post._id);
+            state.posts[index] = action.payload.post; 
             return {
-                ...state,
-                fullPost: {
-                    post: action.payload.post,
-                    loading: false,
-                    fetched: true,
-                    error: false,
-                }
-            };  
-        case IS_SPECIFIC_POST_LOADING:
-            return {
-                ...state,
-                fullPost: {
-                    ...state.fullPost,
-                    loading: true,
-                }
-            }; 
-        case FETCH_SPECIFIC_POST_ERROR:
-            return {
-                ...state,
-                fullPost: {
-                    ...state.fullPost,
-                    loading: false,
-                    error: true,
-                }
+                ...state
             };
         default:
             return state;    

@@ -7,13 +7,15 @@ import {
     AUTH_ERROR,
     SIGN_IN,
     LOGOUT_SUCCESS,
+    DELETE_USER_LIKES,
 } from './types';
 import {
     setLocalStorageAuth,
     emptyLocalStorage,
 } from "../../utils/consts/authConsts";
-import { showNotification } from './../../UI/notificationToast';
+import { showNotification } from '../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
+import { fetchUserLikes } from './usersActions';
 
 export const createUser = (userName, email, password) => (dispatch) => {
     console.log(userName, email, password)
@@ -43,6 +45,7 @@ export const signIn = (password, email, history) => (dispatch) => {
             const token = response.data;
             setLocalStorageAuth(token);
             dispatch({ type: SIGN_IN, payload:{ token } });
+            dispatch(fetchUserLikes(token))
             history.push({pathname: `/main`});
     })
     .catch(error => {
@@ -52,9 +55,8 @@ export const signIn = (password, email, history) => (dispatch) => {
     });
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
     emptyLocalStorage();
-    return {
-      type: LOGOUT_SUCCESS,
-    };
+    dispatch({ type: LOGOUT_SUCCESS });
+    dispatch({ type: DELETE_USER_LIKES });
   };

@@ -4,7 +4,7 @@ import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
 import TagsAutoComplete from '../components/posts/TagsAutoComplete';
 import ImageUpload from '../components/posts/ImageUpload';
-import PostButton from '../components/posts/PostButton';
+import LikeButton from '../components/posts/LikeButton';
 import {
     isTagsLengthValid,
     isPostTitleValid,
@@ -28,6 +28,7 @@ const NewPost = props => {
     const classes = useStyles()
     const dispatch = useDispatch();
     const fixedOptions = [];  
+    const { token } = useSelector((state) => state.auth);
     const [postValues, setPostValues] = useState(initPostValues);
     const { postTitle, postContent, postImage } = postValues;
     const [tagsValue, setTagsValue] = useState([]);
@@ -72,7 +73,7 @@ const NewPost = props => {
     }, [setPostValues, postImage]);
 
     const handleSubmitPost = useCallback(() => {
-        dispatch(createPost(postTitle, postContent, tagsValue, postImage));
+        dispatch(createPost(postTitle, postContent, tagsValue, postImage, token));
         resetValues();
     }, [postTitle, postContent, tagsValue, postImage]);
     
@@ -122,7 +123,7 @@ const NewPost = props => {
                     handleChange={handleTagsChange}
                 />
                 <ImageUpload handleImageChange={handleImageChange} />
-                <PostButton
+                <LikeButton
                     disabled={!isSendButtonEnabled() || isPostBeingCreated}
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}

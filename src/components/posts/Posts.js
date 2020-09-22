@@ -17,7 +17,7 @@ const Posts = ({ action, postsType }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { posts, loading, fetched, error } = useSelector(
-    (state) => state.posts[postsType]
+    (state) => state.posts
   );
   
 
