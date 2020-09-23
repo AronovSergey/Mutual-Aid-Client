@@ -10,6 +10,7 @@ import {
     DELETE_POST,
     IS_COMMENTS_LOADING,
     FETCH_POSTS_COMMENTS,
+    SUBMIT_COMMENT,
 } from "../actions/types";
 
 const initialState = {
@@ -91,6 +92,15 @@ export default function postsReducer(state = initialState, action) {
                 postComments: action.payload.comments,
                 loadingComments: false
             };  
+        case SUBMIT_COMMENT:
+            const indexComment = state.posts.findIndex(
+                (post) => post._id === action.payload.comment.postID);
+            state.posts[indexComment].comments += 1; 
+            return {
+                ...state,
+                loadingComments: false,
+                postComments: [...state.postComments, action.payload.comment]
+            }
         default:
             return state;    
     }

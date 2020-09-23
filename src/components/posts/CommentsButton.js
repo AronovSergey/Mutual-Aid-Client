@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllComments } from './../../redux/actions/postsActions'
 import MyButton from './../sharedComponents/MyButton';
 import Comments from './Comments.js';
+import CommentFrom from './CommentFrom'
 
 //MUI Stuff
 import ChatIcon from '@material-ui/icons/Chat';
@@ -13,7 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 
 
-const LikeButton = (props) => {
+const CommentsButton = (props) => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const { token } = useSelector((state) => state.auth);
@@ -46,14 +47,12 @@ const LikeButton = (props) => {
                     Comments : 
                 </DialogTitle>
                 <DialogContent>
+                    <CommentFrom
+                        postID={props.postID}
+                    />
                     <Comments/>
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        color="primary"
-                    >
-                        New Comment
-                    </Button>
                     <Button
                         onClick={handleClose}
                         color="secondary"
@@ -68,4 +67,4 @@ const LikeButton = (props) => {
     )
 }
 
-export default LikeButton
+export default CommentsButton
