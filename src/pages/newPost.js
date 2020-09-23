@@ -4,7 +4,7 @@ import { categories, initPostValues } from '../utils/consts/newPostConsts';
 import { createPost } from '../redux/actions/postsActions';
 import TagsAutoComplete from '../components/posts/TagsAutoComplete';
 import ImageUpload from '../components/posts/ImageUpload';
-import PostButton from '../components/posts/PostButton';
+import SubmitButton from '../components/posts/SubmitButton';
 import {
     isTagsLengthValid,
     isPostTitleValid,
@@ -124,7 +124,7 @@ const NewPost = props => {
                     handleChange={handleTagsChange}
                 />
                 <ImageUpload handleImageChange={handleImageChange} />
-                <PostButton
+                <SubmitButton
                     disabled={!isSendButtonEnabled() || isPostBeingCreated}
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}
