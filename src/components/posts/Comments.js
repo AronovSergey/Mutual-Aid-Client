@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import CircularProgress from './../../UI/CircularProgress';
+import CommentDeleteButton from './CommentDeleteButton';
 
 //MUI Stuff
 import { makeStyles } from '@material-ui/styles';
@@ -17,7 +18,9 @@ const useStyles = makeStyles(theme => ({
         borderRadius: '50%'
       },
       commentData: {
-        marginLeft: 20
+        position: 'relative',
+        marginLeft: 20,
+        objectFit: 'cover'
       },
       invisibleSeparator: theme.invisibleSeparator,
       visibleSeparator: theme.visibleSeparator,
@@ -25,8 +28,9 @@ const useStyles = makeStyles(theme => ({
 
 const Comments = () => {
     const classes = useStyles();
+    const { user_name } = useSelector((state) => state.users.userProfile);
     const { postComments, loadingComments } = useSelector((state) => state.posts);
-
+    
     return (
         <div>
             {loadingComments && (<CircularProgress/>)}
@@ -60,6 +64,11 @@ const Comments = () => {
                                                 </Typography>
                                                 <hr className={classes.invisibleSeparator} />
                                                 <Typography variabnt="body1">{body}</Typography>
+                                                {userHandle === user_name && (
+                                                    <CommentDeleteButton
+                                                        commentID={_id}
+                                                    />
+                                                )}
                                             </div>
                                         </Grid>
                                     </Grid>

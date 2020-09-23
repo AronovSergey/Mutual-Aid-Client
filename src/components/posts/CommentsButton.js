@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllComments } from './../../redux/actions/postsActions'
+import { fetchAllComments } from './../../redux/actions/postsActions';
 import MyButton from './../sharedComponents/MyButton';
 import Comments from './Comments.js';
-import CommentFrom from './CommentFrom'
+import CommentFrom from './CommentFrom';
 
 //MUI Stuff
 import ChatIcon from '@material-ui/icons/Chat';

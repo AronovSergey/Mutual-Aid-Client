@@ -13,6 +13,7 @@ import {
     IS_COMMENTS_LOADING,
     FETCH_POSTS_COMMENTS,
     SUBMIT_COMMENT,
+    DELETE_COMMENT,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
@@ -144,6 +145,22 @@ export const submitComment = (postID, userHandle, userImage, body, token) => (di
         .then(response => {
             dispatch({ type: SUBMIT_COMMENT, payload: { comment: response.data.comment } });
             showNotification("Comment submission has succeeded!", SUCCESS);
+        })
+        .catch(error => {
+            if(error.response) showNotification(error.response.data, ERROR);
+        });
+}
+
+export const deleteComment = (commentID, token) => (dispatch) => {
+    dispatch({ type: IS_COMMENTS_LOADING });
+    axios.delete(`https://www.mutual-aid.me/api/v1.0/posts/comments/${commentID}`, 
+        {
+            headers: {
+                "auth-token": token,
+            }
+        })
+        .then(response => {
+            dispatch({ type: DELETE_COMMENT, payload: { comment: response.data } });
         })
         .catch(error => {
             if(error.response) showNotification(error.response.data, ERROR);

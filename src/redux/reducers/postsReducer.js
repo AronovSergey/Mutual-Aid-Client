@@ -11,6 +11,7 @@ import {
     IS_COMMENTS_LOADING,
     FETCH_POSTS_COMMENTS,
     SUBMIT_COMMENT,
+    DELETE_COMMENT,
 } from "../actions/types";
 
 const initialState = {
@@ -100,6 +101,18 @@ export default function postsReducer(state = initialState, action) {
                 ...state,
                 loadingComments: false,
                 postComments: [...state.postComments, action.payload.comment]
+            }
+        case DELETE_COMMENT:
+            const indexOfPost = state.posts.findIndex(
+                (post) => post._id === action.payload.comment.postID);
+            state.posts[indexOfPost].comments -= 1; 
+
+            const indexOfComment = state.postComments.findIndex(
+                (comment) => comment._id === action.payload.comment._id);
+            state.postComments.splice(indexOfComment, 1);
+            return {
+                ...state,
+                loadingComments: false,
             }
         default:
             return state;    
