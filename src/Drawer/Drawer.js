@@ -1,6 +1,7 @@
 import React from 'react';
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
+//MUI Stuff
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';

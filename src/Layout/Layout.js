@@ -1,13 +1,12 @@
 import React from 'react';
-
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-
-import { drawerWidth } from '../utils/consts/drawerConsts';
-
 import Header from './../Header/Header';
 import Drawer from './../Drawer/Drawer';
+import { drawerWidth } from '../utils/consts/drawerConsts';
+
+//MUI Stuff
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     content: {
