@@ -8,6 +8,8 @@ import {
     LIKE_POST,
     UNLIKE_POST,
     DELETE_POST,
+    IS_COMMENTS_LOADING,
+    FETCH_POSTS_COMMENTS,
 } from "../actions/types";
 
 const initialState = {
@@ -18,8 +20,9 @@ const initialState = {
     isPostBeingCreated: false,
     //Main page erea
     posts: [],
-    //Likes and comments erea     
-    post: {},
+    //Comments erea 
+    loadingComments: false,
+    postComments: [],
 };
 
 export default function postsReducer(state = initialState, action) {
@@ -77,6 +80,17 @@ export default function postsReducer(state = initialState, action) {
             return {
                 ...state 
             }
+        case IS_COMMENTS_LOADING:
+            return {
+                ...state,
+                loadingComments: true
+            }
+        case FETCH_POSTS_COMMENTS:
+            return {
+                ...state,
+                postComments: action.payload.comments,
+                loadingComments: false
+            };  
         default:
             return state;    
     }

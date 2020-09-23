@@ -10,6 +10,8 @@ import {
     LIKE_POST,
     UNLIKE_POST,
     DELETE_POST,
+    IS_COMMENTS_LOADING,
+    FETCH_POSTS_COMMENTS,
 } from "./types";
 import { showNotification } from './../../UI/notificationToast';
 import { SUCCESS, ERROR } from '../../utils/consts/notificationTypes';
@@ -107,5 +109,20 @@ export const deletePost = (postID, token) => (dispatch) => {
     })
     .catch(error => {
         if (error.response) showNotification(error.response.data, ERROR);
+    });
+}
+
+export const fetchAllComments = (postID, token) => (dispatch) => {
+    dispatch({ type: IS_COMMENTS_LOADING });
+    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/comments/${postID}` ,{
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then((response) => {
+        dispatch({ type: FETCH_POSTS_COMMENTS, payload: response.data });
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
     });
 }
