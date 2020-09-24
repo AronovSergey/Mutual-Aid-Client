@@ -6,8 +6,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 import CommentsButton from './CommentsButton';
-import MyButton from './../sharedComponents/MyButton';
-
 
 //MUI Stuff
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,11 +15,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 
-
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   card: {
-    width: "95%",
+    width: "100%",
     display: 'flex',
     marginBottom: 20,
   },
@@ -36,9 +32,8 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    
   }
-});
+}));
 
 const Post = ({ postData }) => {
   dayjs.extend(relativeTime);
@@ -51,7 +46,7 @@ const Post = ({ postData }) => {
 
   useEffect(() => {
     setIsLiked(userLikes && userLikes.find(like => like.postID === _id))
-  }, [userLikes]);
+  }, [userLikes, _id]);
 
   
 

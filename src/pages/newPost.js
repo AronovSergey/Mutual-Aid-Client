@@ -51,8 +51,8 @@ const NewPost = props => {
             };
         });
 
-    }, [setPostValues, postTitle, postContent]);
-
+    }, [setPostValues]);
+    
     // usage of useCallBack hook in order to prevent function re-rendering
     const handleTagsChange = useCallback(
         (event, newValue) => {
@@ -60,7 +60,7 @@ const NewPost = props => {
             ...fixedOptions,
             ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
         ]);
-    }, [setTagsValue, tagsValue]);
+    }, [setTagsValue, fixedOptions]);
 
     // usage of useCallBack hook in order to prevent function re-rendering
     const handleImageChange = useCallback(
@@ -71,12 +71,12 @@ const NewPost = props => {
               postImage: event.target.files[0],
             };
           });
-    }, [setPostValues, postImage]);
+    }, [setPostValues]);
 
     const handleSubmitPost = useCallback(() => {
         dispatch(createPost(user_name, postTitle, postContent, tagsValue, postImage, token));
         resetValues();
-    }, [user_name, postTitle, postContent, tagsValue, postImage]);
+    }, [user_name, postTitle, postContent, tagsValue, postImage, dispatch, resetValues, token]);
     
     // usage of useCallBack hook in order to prevent function re-rendering
     const isSendButtonEnabled = useCallback(

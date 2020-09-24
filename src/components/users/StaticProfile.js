@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const StaticProfile = (props) => {
     const classes = useStyles();
-    const { _id, first_name, last_name, user_name, imageURL, bio, website, location, createdAt } = props.profile;
+    const { first_name, last_name, user_name, imageURL, bio, website, location, createdAt } = props.profile;
 
   return (
     <Paper className={classes.paper}>

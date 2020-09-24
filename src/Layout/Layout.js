@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import clsx from 'clsx';
 import Header from './../Header/Header';
 import Drawer from './../Drawer/Drawer';
@@ -42,35 +42,33 @@ export default function (props){
       };
 
 	return (
-    <Grid container>
-        <Grid item container direction="column" spacing={3} height={1024}>
-            <Grid item>      
-                <Header
-                    open={open}
-                    handleDrawerOpen={handleDrawerOpen}
-                    handleDrawerClose={handleDrawerClose}
-                />
-            </Grid> 
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                <Grid item container>
-                    <Grid item xs={false} sm={1}/>
-                    <Grid item xs={12} sm={10}>
-                        {props.children}
-                    </Grid>        
-                    <Grid item xs={false} sm={1}/>            
-                </Grid>
-            </main>
-        </Grid>	
-        <Grid item>      
+        <Fragment>
+            <Header
+                open={open}
+                handleDrawerOpen={handleDrawerOpen}
+                handleDrawerClose={handleDrawerClose}
+            />
             <Drawer
                 open={open}
                 handleDrawerClose={handleDrawerClose}
-            />   
-        </Grid>
-    </Grid>
+            /> 
+            <Grid container>
+                <Grid item container direction="column" spacing={3} height={1024}>
+                    <main
+                        className={clsx(classes.content, {
+                            [classes.contentShift]: open,
+                        })}
+                    >
+                        <Grid item container>
+                            <Grid item xs={false} sm={1}/>
+                            <Grid item xs={12} sm={10}>
+                                {props.children}
+                            </Grid>        
+                            <Grid item xs={false} sm={1}/>            
+                        </Grid>
+                    </main>
+                </Grid>	
+            </Grid>
+        </Fragment>
 	);
 }

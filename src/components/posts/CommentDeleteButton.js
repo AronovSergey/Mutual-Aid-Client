@@ -1,20 +1,21 @@
 import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from './../../redux/actions/postsActions';
-import MyButton from './../sharedComponents/MyButton';
 
 
 //MUI Stuff
 import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const useStyles = makeStyles({
     deleteButton: {
+        display: 'flex',
         position: 'absolute',
-        left: '90%',
-        top: '58%'
-    }
+        left: '100%',
+        top: '72%'
+    },
   });
 
 const CommentDeleteButton = (props) => {
@@ -28,13 +29,14 @@ const CommentDeleteButton = (props) => {
 
     return (
         <Fragment>
-            <MyButton 
-                tip="Delete Post"
-                onClick={handleDelete}
-                btnClassName={classes.deleteButton}
+            <Tooltip 
+                onClick={handleDelete} 
+                title="Delete Post" 
+                placement="top"
+                className={classes.deleteButton}
             >
                 <ClearIcon color="secondary"/>
-            </MyButton>
+            </Tooltip>
         </Fragment>
     )
 }

@@ -12,7 +12,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Typography from "@material-ui/core/Typography";
 //Icons
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -58,7 +57,7 @@ const EditDetails = () => {
     const handleSubmitPost = useCallback(() => {
         dispatch(editUserDetails(token, userValues, userValues._id));
         handleClose();
-    }, [userValues, setUserValues]);
+    }, [userValues, dispatch, token]);
 
     return (
         <Fragment>

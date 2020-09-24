@@ -23,7 +23,7 @@ const Posts = ({ action, postsType }) => {
 
   useEffect(() => {
      dispatch(action(token));
-   }, []);
+   }, [action, dispatch, token]);
 
   return (
     <div className={classes.root}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { drawerWidth } from '../utils/consts/drawerConsts';
@@ -86,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const menuId = 'primary-search-account-menu';
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -101,8 +99,7 @@ export default function PrimarySearchAppBar(props) {
   };
 
   return (
-    <div>
-        <div className={classes.grow}>
+      <div className={classes.grow}>
         <AppBar
             position="fixed"
             className={clsx(classes.appBar, {
@@ -145,28 +142,28 @@ export default function PrimarySearchAppBar(props) {
                   inputProps={{ 'aria-label': 'search' }}
                   />
               </div>
-              {/*  */}
+              {/* Profile */}
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
                   <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
                   >
-                  <AccountCircle />
+                    <AccountCircle />
                   </IconButton>
+
+                  <RightMenu
+                    anchorEl={anchorEl}
+                    menuId={menuId}
+                    handleProfileMenuClose={handleProfileMenuClose}
+                  />
               </div>
             </Toolbar>
         </AppBar>
-        <RightMenu
-          anchorEl={anchorEl}
-          menuId={menuId}
-          handleProfileMenuClose={handleProfileMenuClose}
-        />
-        </div>
-    </div>
+      </div>
   );
 }

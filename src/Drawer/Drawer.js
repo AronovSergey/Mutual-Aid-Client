@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
 //MUI Stuff
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -7,15 +8,19 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
-import { drawerWidth, drawerTopTags, drawerTopLinkes } from '../utils/consts/drawerConsts';
+//Icons
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import HomeIcon from '@material-ui/icons/Home';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+
+import { drawerWidth } from '../utils/consts/drawerConsts';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -39,6 +44,12 @@ export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const { user_name } = useSelector((state) => state.users.userProfile);
+
+  
+  const labelsArray = ['Home', 'New Post', 'Your Page', 'Recommended'];
+  const pathsArray = ['/', '/new_post', `/users/${user_name}`, '/recommended'];
+  const iconsArray = [<HomeIcon />, <PostAddIcon />, <AssignmentIndIcon />, <TrendingUpIcon />];
 
   return (
       <Drawer
@@ -56,25 +67,17 @@ export default function PersistentDrawerLeft(props) {
           </IconButton>
         </div>
         <Divider />
+        {/* Links */}
         <List>
-          {drawerTopTags.map((text, index) => (
+          {labelsArray.map((text, index) => (
             <ListItem
               button 
               key={text}
               onClick={() => {
-                history.push({pathname: `/${drawerTopLinkes[index]}`});
+                history.push({pathname: `${pathsArray[index]}`});
               }}
             >
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{iconsArray[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}

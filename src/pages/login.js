@@ -51,7 +51,7 @@ const Login = () => {
     if (isInputValid) {
       dispatch(signIn(password, email, history));
     }
-  }, [dispatch, isInputValid, password, email]);
+  }, [dispatch, isInputValid, password, email, history]);
 
   return (
     <SignForm

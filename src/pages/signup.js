@@ -23,8 +23,7 @@ const SignUp = () => {
   const [signUpDetails, setSignUpDetails] = useState(initSignUpValues);
   const { userName, email, password } = signUpDetails;
 
-  const handleInputChange = useCallback(
-    (event) => {
+  const handleInputChange = useCallback((event) => {
       const { name, value } = event.target;
       setSignUpDetails((prevSignUpDetails) => {
         return {
@@ -32,33 +31,27 @@ const SignUp = () => {
           [name]: value,
         };
       });
-    },
-    [setSignUpDetails, signUpDetails]
-  );
+    } , [setSignUpDetails]);
 
   const isInputValid = useCallback(
     (userName, password, email) =>
       isFieldValueValid(userName) &&
       isSignUpPasswordValid(password) &&
-      isEmailValid(email),
-    [userName, password, email]
-  );
+      isEmailValid(email)
+      , []);
 
   const enableSignUpButton = useCallback(
     (userName, password, email, isLoading) => {
       return !isInputValid(userName, password, email) || isLoading;
-    },
-    [userName, password, email, {/*isLoading*/}]
-  );
+    }
+    , [isInputValid]);
 
   const handleSignUpButton = useCallback(
     (userName, password, email) => {
       if (isInputValid(userName, password, email)) {
         dispatch(createUser(userName, email, password, history));
       }
-    },
-    [userName, password, email]
-  );
+    },[dispatch, history, isInputValid]);
 
   const inputFields = () => {
     return Object.keys(signUpDetails)

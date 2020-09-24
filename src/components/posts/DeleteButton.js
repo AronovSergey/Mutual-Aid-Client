@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from './../../redux/actions/postsActions';
-import MyButton from './../sharedComponents/MyButton';
 
 
 //MUI Stuff
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -29,12 +29,13 @@ const DeleteButton = (props) => {
 
     return (
         <Fragment>
-            <MyButton 
-                tip="Delete Post"
-                onClick={handleOpenChanges}
+            <Tooltip 
+                onClick={handleOpenChanges} 
+                title="Delete Post"  
+                placement="top"
             >
                 <DeleteOutlineIcon color="secondary"/>
-            </MyButton>
+            </Tooltip>
             <Dialog
                 open={open}
                 onClose={handleOpenChanges}
@@ -46,16 +47,16 @@ const DeleteButton = (props) => {
                 </DialogTitle>
                 <DialogActions>
                     <Button
-                        onClick={handleOpenChanges}
-                        color="primary"
-                    >
-                        Cancel
-                    </Button>
-                    <Button
                         onClick={handleDelete}
                         color="secondary"
                     >
                         Delete
+                    </Button>
+                    <Button
+                        onClick={handleOpenChanges}
+                        color="primary"
+                    >
+                        Cancel
                     </Button>
                 </DialogActions>
             </Dialog>

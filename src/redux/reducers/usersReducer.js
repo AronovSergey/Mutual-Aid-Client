@@ -90,6 +90,7 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 user: action.payload.user,
+                isLoading: false,
             }     
         default:
             return state;

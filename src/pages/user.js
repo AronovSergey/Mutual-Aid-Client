@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserData } from './../redux/actions/usersActions';
 import { fetchAllPosts } from './../redux/actions/postsActions';
@@ -19,13 +19,13 @@ const User = (props) => {
     useEffect(() => {
         dispatch(fetchAllPosts(token));
         dispatch(getUserData(user_name, token));
-    }, [user_name]);
+    }, [user_name, dispatch, token]);
     
     return (
         <div>
             {isLoading && (<CircularProgress/>)}
 
-            <Grid container spacing={16}>
+            <Grid container spacing={2}>
                 <Grid item sm={8} xs={12}>
                     {!isLoading && posts.filter(post => post.author === user_name).length < 1  && (
                         <p>No screams from this user</p>

@@ -37,7 +37,7 @@ const Comments = () => {
             {!loadingComments && (
                 <Grid container>
                     {postComments.map((comment, index) => {
-                        const{ _id, userHandle, postID, body, userImage, createdAt} = comment;
+                        const{ _id, userHandle, body, userImage, createdAt} = comment;
                         return (
                             <Fragment key={_id}>
                                 <Grid item sm={12}>

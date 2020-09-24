@@ -33,7 +33,7 @@ const Profile = () => {
 
     useEffect(() => {
         dispatch(fetchUserProfile(token));
-      }, []);
+      }, [token, dispatch]);
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
