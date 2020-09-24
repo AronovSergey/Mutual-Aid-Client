@@ -9,6 +9,8 @@ import {
     UNLIKE_POST,
     SET_USER_LIKES,
     DELETE_USER_LIKES,
+    LOADING_USER_DATA,
+    SET_USER_DATA,
  } from './../actions/types';
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
     fetched: false,
     likes: [],
     notifications: [],
+    user: {},
 };
 
 export default function(state = initialState, action){
@@ -31,7 +34,8 @@ export default function(state = initialState, action){
 
         case LOADING_USER_DETAILS:
         case LOADING_PROFILE_IMAGE:    
-        case LOADING_USER_PROFILE:    
+        case LOADING_USER_PROFILE: 
+        case LOADING_USER_DATA:  
             return{
                 ...state,
                 isLoading: true,
@@ -82,6 +86,11 @@ export default function(state = initialState, action){
                 ...state,
                 likes: []
             }
+        case SET_USER_DATA:
+            return{
+                ...state,
+                user: action.payload.user,
+            }     
         default:
             return state;
     }

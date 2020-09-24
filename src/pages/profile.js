@@ -70,7 +70,7 @@ const Profile = () => {
                         <div className="profile-details">
                             <MuiLink 
                                 component={Link} 
-                                to={`/user/${user_name}`}
+                                to={`/users/${user_name}`}
                                 color="primary"
                                 variant="h5"
                             >

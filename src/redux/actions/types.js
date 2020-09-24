@@ -25,6 +25,8 @@ export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
 export const LOADING_PROFILE_IMAGE = "LOADING_PROFILE_IMAGE";
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOADING_USER_DETAILS = "LOADING_USER_DETAILS";
+export const LOADING_USER_DATA = "LOADING_USER_DATA";
+export const SET_USER_DATA = "SET_USER_DATA";
 //Post data reducer types
 export const UNLIKE_POST = "UNLIKE_POST";
 export const LIKE_POST = "LIKE_POST";

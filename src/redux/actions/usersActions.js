@@ -9,6 +9,8 @@ import {
     SET_USER_DETAILS,
     LOADING_USER_DETAILS,
     SET_USER_LIKES,
+    LOADING_USER_DATA,
+    SET_USER_DATA,
 } from './../actions/types';
 
 
@@ -86,4 +88,20 @@ export const fetchUserLikes = (token) => (dispatch) => {
     .catch((error) => {
         if(error.response) showNotification(error.response.data, ERROR);
     })
-}
+};
+
+export const getUserData = (user_name, token) => (dispatch) => {
+    dispatch({ type: LOADING_USER_DATA });
+    axios.get(`https://www.mutual-aid.me/api/v1.0/user/${user_name}`,{
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then((response) => {
+        dispatch({ type: SET_USER_DATA, payload: { user: response.data.user } });
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+    })
+
+};

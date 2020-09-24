@@ -21,7 +21,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles({
   card: {
-    width: "100%",
+    width: "95%",
     display: 'flex',
     marginBottom: 20,
   },
