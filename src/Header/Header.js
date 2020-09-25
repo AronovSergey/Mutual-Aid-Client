@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { drawerWidth } from '../utils/consts/drawerConsts';
@@ -85,9 +86,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
+  const history = useHistory();
   const menuId = 'primary-search-account-menu';
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [searchExpression, setSearchExpression] = useState("");
   
 
   const handleProfileMenuOpen = (event) => {
@@ -97,6 +99,11 @@ export default function PrimarySearchAppBar(props) {
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSearch = () => {
+    history.push({pathname: `/posts/search/${searchExpression}`})
+  }
+  
 
   return (
       <div className={classes.grow}>
@@ -131,15 +138,21 @@ export default function PrimarySearchAppBar(props) {
               {/* Search */}
               <div className={classes.search}>
                   <div className={classes.searchIcon}>
-                  <SearchIcon />
+                    <SearchIcon />
                   </div>
                   <InputBase
-                  placeholder="Search…"
-                  classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
+                    placeholder="Search…"
+                    classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange ={event => {setSearchExpression(event.target.value);}}
+                    onKeyPress={event => {
+                      if (event.key === 'Enter') {
+                            handleSearch();
+                          }
+                        }}
                   />
               </div>
               {/* Profile */}

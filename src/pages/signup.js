@@ -49,7 +49,7 @@ const SignUp = () => {
   const handleSignUpButton = useCallback(
     (userName, password, email) => {
       if (isInputValid(userName, password, email)) {
-        dispatch(createUser(userName, email, password, history));
+        dispatch(createUser(userName.toLowerCase(), email, password, history));
       }
     },[dispatch, history, isInputValid]);
 
@@ -58,7 +58,8 @@ const SignUp = () => {
       .filter((field) => field !== "email" && field !== "password")
       .map((field) => (
         <TextField
-          error={errorSignUpInputField(signUpDetails[field])}
+          key={field}
+          error={Boolean(errorSignUpInputField(signUpDetails[field]))}
           helperText={helpTextField(signUpDetails[field])}
           margin="normal"
           required
@@ -73,7 +74,7 @@ const SignUp = () => {
 
   const passwordField = () => (
     <TextField
-      error={errorSignUpPassword(password)}
+      error={Boolean(errorSignUpPassword(password))}
       helperText={signUpPasswordTextHelper(password)}
       type="password"
       margin="normal"
@@ -88,7 +89,7 @@ const SignUp = () => {
 
   const emailField = () => (
     <TextField
-      error={errorSignUpEmail(email)}
+      error={Boolean(errorSignUpEmail(email))}
       helperText={helpTextEmailMessageForSignUp(email)}
       margin="normal"
       required

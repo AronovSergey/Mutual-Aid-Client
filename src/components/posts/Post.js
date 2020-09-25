@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     height: 300,
+    marginBottom: 15,
   },
   content:{
     padding: 25,

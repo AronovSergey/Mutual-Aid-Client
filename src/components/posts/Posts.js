@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from './../../UI/CircularProgress';
+import { fetchAllPosts } from "../../redux/actions/postsActions";
 import Error from './../sharedComponents/Error';
 import Post from './Post';
 
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Posts = ({ action, postsType }) => {
+const Posts = ({ postsType, searchExpression }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -20,15 +21,23 @@ const Posts = ({ action, postsType }) => {
     (state) => state.posts
   );
   
-
   useEffect(() => {
-     dispatch(action(token));
-   }, [action, dispatch, token]);
+     dispatch(fetchAllPosts(token));
+   }, [dispatch, token]);
 
   return (
     <div className={classes.root}>
       {loading && (<CircularProgress/>)}
-      {fetched && posts.map((post) => <Post postData={post} key={post._id} />)}
+      {fetched && postsType === 'mainPosts' && 
+        posts.map(post => <Post postData={post} key={post._id} />)
+      }
+      {fetched && postsType === 'searchResults' && 
+        posts.filter(
+          post => post.author.toLowerCase().search(searchExpression) >= 0 ||
+                  post.title.toLowerCase().search(searchExpression) >= 0 ||
+                  post.content.toLowerCase().search(searchExpression) >= 0)
+          .map(post => <Post postData={post} key={post._id} />) 
+      }
       {error && <Error>Fetching Error</Error>}
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import {debounce} from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { likePost, unlikePost} from './../../redux/actions/postsActions';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -23,13 +24,13 @@ const LikeButton = (props) => {
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
 
-    const likePostHandler = () =>{
+    const likePostHandler = debounce( () =>{
         dispatch(likePost(props._id, token))
-    }
+    }, 200);
     
-    const unlikePostHandler = () =>{
+    const unlikePostHandler = debounce(() =>{
         dispatch(unlikePost(props._id, token))
-    }
+    }, 200);
     
     return (
         <div className={classes.button}>
