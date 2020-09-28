@@ -90,7 +90,7 @@ const NewPost = props => {
 
     return (
         <Paper className={classes.rootPaper} elevation={4}>
-        `  <Container>
+            <Container>
                 <TextField
                     error={Boolean(displayPostTitleError(postTitle))}
                     helperText={postTitleTextHelper(postTitle)}
@@ -129,7 +129,7 @@ const NewPost = props => {
                     buttonName={"Post"}
                     handleSubmit={handleSubmitPost}
                 />
-            </Container>`
+            </Container>
         </Paper>
     );
 };

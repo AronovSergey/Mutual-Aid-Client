@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from './../../UI/CircularProgress';
-import { fetchAllPosts } from "../../redux/actions/postsActions";
+import { fetchAllPosts, fetchRecommended } from "../../redux/actions/postsActions";
 import Error from './../sharedComponents/Error';
 import Post from './Post';
 
@@ -22,13 +22,16 @@ const Posts = ({ postsType, searchExpression }) => {
   );
   
   useEffect(() => {
-     dispatch(fetchAllPosts(token));
-   }, [dispatch, token]);
+    if(postsType === 'searchResults' || postsType === 'mainPosts')
+      dispatch(fetchAllPosts(token));
+    else if(postsType === 'recommended')
+      dispatch(fetchRecommended(token))
+   }, [postsType, dispatch, token]);
 
   return (
     <div className={classes.root}>
       {loading && (<CircularProgress/>)}
-      {fetched && postsType === 'mainPosts' && 
+      {fetched && (postsType === 'mainPosts' || postsType === 'recommended') && 
         posts.map(post => <Post postData={post} key={post._id} />)
       }
       {fetched && postsType === 'searchResults' && 

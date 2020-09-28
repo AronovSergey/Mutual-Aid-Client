@@ -18,7 +18,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 const useStyles = makeStyles((theme) => ({
   card: {
     width: "100%",
-    display: 'flex',
     marginBottom: 20,
   },
   image: {
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 15,
   },
   content:{
-    padding: 25,
+    padding: 20,
     objectFit: 'cover',
   },
   action:{
@@ -53,19 +52,20 @@ const Post = ({ postData }) => {
 
   return (
     <Card className={classes.card}>
-      <CardActionArea>
+      <CardContent className={classes.content}>
         <CardMedia
           className={classes.image}
           image={imageURL}
           title={title}
         />
-        <CardContent className={classes.content}>
+        
           <Typography 
             variant="h3" 
           >
             {title}
           </Typography>
-
+      </CardContent>
+      <CardActionArea>
           <Typography 
             variant="h5" 
             component={Link} 
@@ -74,8 +74,8 @@ const Post = ({ postData }) => {
           >
             {author}
           </Typography>
-
-
+      </CardActionArea>
+      <CardContent>
           <Typography 
             variant="body2" 
             color="textSecondary"
@@ -95,7 +95,8 @@ const Post = ({ postData }) => {
           >
             {`Tags : ${tags.toString()}`}
           </Typography>
-
+        </CardContent> 
+        <CardActionArea>
           <div className={classes.action}>
             <LikeButton
               isLiked={isLiked}
@@ -112,9 +113,7 @@ const Post = ({ postData }) => {
               <DeleteButton postID={_id}/>
             )}
           </div>
-          
-        </CardContent>
-      </CardActionArea>
+        </CardActionArea>
     </Card>
   );
 };

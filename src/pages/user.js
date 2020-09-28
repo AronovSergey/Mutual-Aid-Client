@@ -7,9 +7,18 @@ import CircularProgress from './../UI/CircularProgress';
 import StaticProfile from './../components/users/StaticProfile';
 import ProfileSkeleton from './../components/users/ProfileSkeleton';
 //MUI Stuff
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles({
+    root: {
+      margin: "5em",
+      textAlign: "center",
+    },
+  });
+
 const User = (props) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const user_name = props.match.params.user_name;
     const { token } = useSelector((state) => state.auth);
@@ -22,7 +31,7 @@ const User = (props) => {
     }, [user_name, dispatch, token]);
     
     return (
-        <div>
+        <div className={classes.root}>
             {isLoading && (<CircularProgress/>)}
 
             <Grid container spacing={2}>

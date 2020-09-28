@@ -6,6 +6,7 @@ import testPage from './testPage';
 import profile from './profile';
 import user from './user';
 import searchResults from './searchResults';
+import recommended from './recommended';
 
 const LoggedInPages = props => {
     return (
@@ -15,6 +16,7 @@ const LoggedInPages = props => {
             <Route path="/new_post" exact component={newPost}/>
             <Route path="/test_page" exact component={testPage}/>
             <Route path="/profile" exact component={profile}/>
+            <Route path="/recommended" exact component={recommended}/>
             <Route path="/users/:user_name" exact component={user}/>
             <Route path="/posts/search/:search_expression" exact component={searchResults}/>
             <Route render={()=><h1>Page not found</h1>}/>

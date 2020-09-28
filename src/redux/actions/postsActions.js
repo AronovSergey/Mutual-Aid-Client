@@ -70,6 +70,22 @@ export const fetchAllPosts = (token) => (dispatch) => {
     });
 }
 
+export const fetchRecommended = (token) => (dispatch) => {
+    dispatch({ type: IS_ALL_POSTS_LOADING });
+    axios.get('https://www.mutual-aid.me/api/v1.0/posts/recommended' ,{
+        headers: {
+            "auth-token": token,
+        }
+    })
+    .then((response) => {
+        dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts });
+    })
+    .catch((error) => {
+        if(error.response) showNotification(error.response.data, ERROR);
+        dispatch({ type: FETCH_ALL_POSTS_ERROR });   
+    });
+} 
+
 export const likePost = (postID, token) => (dispatch) => {
     axios.get(`https://www.mutual-aid.me/api/v1.0/posts/${postID}/like` ,{
         headers: {

@@ -52,7 +52,7 @@ const CommentsButton = (props) => {
                 >
                     <ChatIcon color="primary"/>
                 </Tooltip>
-                <span className={classes.span}>{props.comments} comments</span>
+                <span className={classes.span} onClick={handleOpen}>{props.comments} comments</span>
             </div>
             <Dialog
                 open={open}
