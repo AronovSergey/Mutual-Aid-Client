@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from './../../UI/CircularProgress';
-import { fetchAllPosts, fetchRecommended } from "../../redux/actions/postsActions";
+import { fetchAllPosts, fetchRecommended, fetchSearch } from "../../redux/actions/postsActions";
 import Error from './../sharedComponents/Error';
 import Post from './Post';
 
@@ -22,24 +22,22 @@ const Posts = ({ postsType, searchExpression }) => {
   );
   
   useEffect(() => {
-    if(postsType === 'searchResults' || postsType === 'mainPosts')
+    if(postsType === 'mainPosts')
       dispatch(fetchAllPosts(token));
+    else if(postsType === 'searchResults' )
+      dispatch(fetchSearch(searchExpression, token))
     else if(postsType === 'recommended')
       dispatch(fetchRecommended(token))
-   }, [postsType, dispatch, token]);
+   }, [searchExpression, postsType, dispatch, token]);
 
   return (
     <div className={classes.root}>
       {loading && (<CircularProgress/>)}
-      {fetched && (postsType === 'mainPosts' || postsType === 'recommended') && 
+      {fetched && 
         posts.map(post => <Post postData={post} key={post._id} />)
       }
-      {fetched && postsType === 'searchResults' && 
-        posts.filter(
-          post => post.author.toLowerCase().search(searchExpression) >= 0 ||
-                  post.title.toLowerCase().search(searchExpression) >= 0 ||
-                  post.content.toLowerCase().search(searchExpression) >= 0)
-          .map(post => <Post postData={post} key={post._id} />) 
+      {fetched && !loading && postsType === 'searchResults' &&  posts.length === 0 &&
+        <h1>There are no results that match your search</h1>
       }
       {error && <Error>Fetching Error</Error>}
     </div>
