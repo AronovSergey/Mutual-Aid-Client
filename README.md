@@ -9,7 +9,7 @@ These next technologies are the ones used in this project:
 * React.js
 * Redux.js (redux-thunk, actions, reducers, store)
 * Purely functional components ( useState, useEffect, useDispatch, useSelector, custom hooks, etc..)
-* GraphQL (REST)
+* Axios
 * Material-UI
 ## Local Setting
 ### Getting Started
