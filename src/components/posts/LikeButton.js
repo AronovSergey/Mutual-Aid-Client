@@ -1,5 +1,6 @@
 import React from 'react';
 import {debounce} from 'lodash';
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { likePost, unlikePost} from './../../redux/actions/postsActions';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -21,11 +22,15 @@ const useStyles = makeStyles((theme) => ({
 
 const LikeButton = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
 
     const likePostHandler = debounce( () =>{
-        dispatch(likePost(props._id, token))
+        if(token)
+            dispatch(likePost(props._id, token))
+        else
+            history.push({pathname: `/login`})
     }, 200);
     
     const unlikePostHandler = debounce(() =>{

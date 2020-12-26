@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';  
 import { submitComment } from './../../redux/actions/postsActions';
 
@@ -16,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 const CommentFrom = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const postID = props.postID;
     const [body, setBody] = useState("");
@@ -25,8 +27,12 @@ const CommentFrom = (props) => {
     
 
     const handleSubmit = () => {
-        dispatch(submitComment(postID, userHandle, userImage, body, token));
-        setBody("");
+        if(token){
+            dispatch(submitComment(postID, userHandle, userImage, body, token));
+            setBody("");
+        }
+        else
+            history.push({pathname: `/login`})
     }
 
     const handleChange = (event) => {

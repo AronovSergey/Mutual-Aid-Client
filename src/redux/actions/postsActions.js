@@ -56,11 +56,7 @@ export const createPost = (user_name, postTitle, postContent, tagsValue, postIma
 
 export const fetchAllPosts = (token) => (dispatch) => {
     dispatch({ type: IS_ALL_POSTS_LOADING });
-    axios.get('https://www.mutual-aid.me/api/v1.0/posts' ,{
-        headers: {
-            "auth-token": token,
-        }
-    })
+    axios.get('https://www.mutual-aid.me/api/v1.0/posts')
     .then((response) => {
         dispatch({ type: FETCH_ALL_POSTS, payload: response.data.posts });
     })
@@ -148,11 +144,7 @@ export const deletePost = (postID, token) => (dispatch) => {
 
 export const fetchAllComments = (postID, token) => (dispatch) => {
     dispatch({ type: IS_COMMENTS_LOADING });
-    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/comments/${postID}` ,{
-        headers: {
-            "auth-token": token,
-        }
-    })
+    axios.get(`https://www.mutual-aid.me/api/v1.0/posts/comments/${postID}`)
     .then((response) => {
         dispatch({ type: FETCH_POSTS_COMMENTS, payload: response.data });
     })
